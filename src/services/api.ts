@@ -1,6 +1,6 @@
-const API_URL = "http://bira-backend.railway.internal";
+const API_URL = "process.env.NEXT_PUBLIC_API_URL";
 
-//process.env.NEXT_PUBLIC_API_URL
+//
 
 export interface Promotor {
   id: number;
