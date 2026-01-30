@@ -1,4 +1,4 @@
-const API_URL = "http://biraparty.lat:3001";
+const API_URL = "http://bira-backend.railway.internal";
 
 //process.env.NEXT_PUBLIC_API_URL
 
