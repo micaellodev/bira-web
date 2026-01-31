@@ -64,14 +64,8 @@ export default function RegistroPage() {
     try {
       const res: CanjearCodigoResponse = await canjearCodigo(payload);
 
-      // Extract UUID from qrData
-      let uuid = "";
-      try {
-        const qrDataParsed = JSON.parse(res.qrData);
-        uuid = qrDataParsed.uuid;
-      } catch (err) {
-        console.error("Error parsing qrData:", err);
-      }
+      // El UUID ahora viene directamente en la respuesta
+      const uuid = res.uuid || "";
 
       // Guardar datos en sessionStorage como respaldo
       if (typeof window !== 'undefined') {

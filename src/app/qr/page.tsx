@@ -14,6 +14,7 @@ interface Invitado {
   numeroDocumento: string;
   telefono: string;
   email: string;
+  codigo?: string;
   promotor?: {
     id: number;
     nombres: string;
@@ -36,8 +37,8 @@ export default function QRPage() {
     }
 
     const invitadoParsed = JSON.parse(invitadoRaw) as Invitado;
-      console.log("Invitado completo:", invitadoParsed); // 👈 Agrega esto
-  console.log("Promotor:", invitadoParsed.promotor);
+    console.log("Invitado completo:", invitadoParsed); // 👈 Agrega esto
+    console.log("Promotor:", invitadoParsed.promotor);
     setInvitado(invitadoParsed);
     setQrData(qrRaw);
   }, []);
@@ -103,7 +104,7 @@ export default function QRPage() {
           <div className="mt-2 flex flex-shrink-0 items-center justify-between p-4 font-mono text-white">
             <div className="text-xs">Comet Invitation</div>
             <div className="text-xs text-gray-300 opacity-50">
-              #{qrData ? JSON.parse(qrData).codigo : ""}
+              #{invitado.codigo || ""}
             </div>
           </div>
         </div>

@@ -52,7 +52,9 @@ export interface CanjearCodigoResponse {
     nombres: string;
     apellidos: string;
   };
-  qrData: string;
+  codigo: string; // Código en texto plano
+  uuid: string; // UUID para identificar el QR
+  qrData: string; // QR encriptado
 }
 
 export async function canjearCodigo(

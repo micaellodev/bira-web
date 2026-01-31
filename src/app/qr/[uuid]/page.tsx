@@ -16,6 +16,8 @@ interface Invitado {
     numeroDocumento: string;
     telefono: string;
     email: string;
+    codigo?: string;
+    uuid?: string;
     promotor?: {
         id: number;
         nombres: string;
@@ -48,9 +50,8 @@ export default function QRPage() {
                 if (storedInvitado) {
                     try {
                         const parsed = JSON.parse(storedInvitado);
-                        // Verificar si el UUID coincide (dentro de qrData)
-                        const qrDataParsed = JSON.parse(parsed.qrData);
-                        if (qrDataParsed.uuid === uuid) {
+                        // Verificar si el UUID coincide (ahora viene en el objeto directamente)
+                        if (parsed.uuid === uuid) {
                             setInvitado(parsed);
                             setLoading(false);
                             // Opcionalmente podemos revalidar con la API en segundo plano
@@ -201,7 +202,7 @@ export default function QRPage() {
                     <div className="mt-2 flex flex-shrink-0 items-center justify-between p-3 sm:p-4 font-mono text-white">
                         <div className="text-xs">Comet Invitation</div>
                         <div className="text-xs text-gray-300 opacity-50">
-                            #{safeGetCodigo(invitado.qrData)}
+                            #{invitado.codigo || ""}
                         </div>
                     </div>
                 </div>
@@ -241,10 +242,4 @@ export default function QRPage() {
     );
 }
 
-function safeGetCodigo(qrData: string): string {
-    try {
-        return qrData ? JSON.parse(qrData).codigo : "";
-    } catch {
-        return "";
-    }
-}
+
