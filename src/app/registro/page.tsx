@@ -11,16 +11,7 @@ import { IconSquareRoundedX } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
 import { AuroraBackground } from "@/components/aurora-background";
 import { canjearCodigo, CanjearCodigoPayload, CanjearCodigoResponse } from "@/services/codigos";
-import type { Metadata } from 'next';
 
-export const metadata: Metadata = {
-  title: "Registro de Invitado - Bira Party",
-  description: "Completa tu registro para acceder al evento. Ingresa tus datos personales y obtén tu código QR de invitación.",
-  robots: {
-    index: false,
-    follow: false,
-  },
-};
 
 const loadingStates = [
   { text: "Verificando documento" },
