@@ -171,20 +171,6 @@ export default function HomePage() {
               >
                 Contactar Promotor
               </Link>
-              <span className="text-gray-600">•</span>
-              <a
-                href="#sobre-bira"
-                className="text-gray-400 hover:text-white transition-colors duration-300"
-              >
-                Sobre Bira Party
-              </a>
-              <span className="text-gray-600">•</span>
-              <a
-                href="#ayuda"
-                className="text-gray-400 hover:text-white transition-colors duration-300"
-              >
-                Ayuda
-              </a>
             </div>
           </nav>
         </div>
