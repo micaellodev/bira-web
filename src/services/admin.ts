@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://';
 const ADMIN_TOKEN_KEY = '_sys_auth_token';
 
 // Hidden admin API path

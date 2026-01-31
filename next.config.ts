@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
   trailingSlash: false,
   experimental: {
     // @ts-expect-error - allowedDevOrigins is valid in newer Next.js versions but types might be outdated
-    allowedDevOrigins: ["localhost:3000", "192.168.10.115:3000"],
+    allowedDevOrigins: ["", "192.168.10.115:3000"],
   },
   async headers() {
     return [
