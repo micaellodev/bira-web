@@ -151,17 +151,27 @@ class AdminService {
     }
 
     async getAnalyticsPromotor(): Promise<AnalyticsPromotor[]> {
-        const response = await axios.get(`${API_URL}${ADMIN_PATH}/analytics/promotores`, {
-            headers: this.getHeaders(),
-        });
-        return response.data;
+        try {
+            const response = await axios.get(`${API_URL}${ADMIN_PATH}/analytics/promotores`, {
+                headers: this.getHeaders(),
+            });
+            return response.data;
+        } catch (error) {
+            console.warn('Failed to load promotor analytics (possibly blocked):', error);
+            return [];
+        }
     }
 
     async getAnalyticsEvento(): Promise<AnalyticsEvento[]> {
-        const response = await axios.get(`${API_URL}${ADMIN_PATH}/analytics/evento`, {
-            headers: this.getHeaders(),
-        });
-        return response.data;
+        try {
+            const response = await axios.get(`${API_URL}${ADMIN_PATH}/analytics/evento`, {
+                headers: this.getHeaders(),
+            });
+            return response.data;
+        } catch (error) {
+            console.warn('Failed to load event analytics (possibly blocked):', error);
+            return [];
+        }
     }
 
     // Promoter management
