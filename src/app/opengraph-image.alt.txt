@@ -1,0 +1,17 @@
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Validar Código - Bira Party",
+  description: "Ingresa tu código de invitación para acceder a Bira Party. Valida tu código y asegura tu lugar en el evento.",
+  keywords: ["validar código", "código invitación", "Bira Party", "entradas", "registro"],
+  openGraph: {
+    title: "Validar Código - Bira Party",
+    description: "Ingresa tu código de invitación para acceder a Bira Party.",
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Validar Código - Bira Party",
+    description: "Ingresa tu código de invitación para acceder a Bira Party.",
+  },
+};

@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /sys-panel/
+Disallow: /api/
+
+Sitemap: {{SITE_URL}}/sitemap.xml

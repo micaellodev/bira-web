@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import Head from 'next/head';
 import { Spinner } from "@/components/ui/spinner";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
@@ -88,7 +90,7 @@ export default function HomePage() {
 
           {/* Title with gradient */}
           <h1 className="text-2xl sm:text-3xl font-bold text-white animate-in fade-in slide-in-from-bottom-2 duration-700 delay-100">
-            Ingresa tu código
+            Valida tu Código de Invitación
           </h1>
 
           {/* Subtitle */}
@@ -153,9 +155,38 @@ export default function HomePage() {
           )}
 
           {/* Helper text */}
-          <p className="text-gray-500 text-xs sm:text-sm mt-4 animate-in fade-in duration-700 delay-500">
+          <Link
+            href="/contacto-promotor"
+            className="text-gray-500 hover:text-gray-300 text-xs sm:text-sm mt-4 animate-in fade-in duration-700 delay-500 transition-colors duration-300 cursor-pointer"
+          >
             ¿No tienes un código? Contacta con tu promotor
-          </p>
+          </Link>
+
+          {/* Internal Navigation Footer */}
+          <nav className="mt-8 pt-6 border-t border-white/10 w-full animate-in fade-in duration-700 delay-600">
+            <div className="flex flex-wrap justify-center gap-4 text-xs sm:text-sm">
+              <Link
+                href="/contacto-promotor"
+                className="text-gray-400 hover:text-white transition-colors duration-300"
+              >
+                Contactar Promotor
+              </Link>
+              <span className="text-gray-600">•</span>
+              <a
+                href="#sobre-bira"
+                className="text-gray-400 hover:text-white transition-colors duration-300"
+              >
+                Sobre Bira Party
+              </a>
+              <span className="text-gray-600">•</span>
+              <a
+                href="#ayuda"
+                className="text-gray-400 hover:text-white transition-colors duration-300"
+              >
+                Ayuda
+              </a>
+            </div>
+          </nav>
         </div>
 
       </main>

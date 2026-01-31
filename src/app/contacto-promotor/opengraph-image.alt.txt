@@ -1,0 +1,17 @@
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Contacta con tu Promotor - Bira Party",
+  description: "Encuentra y contacta con tu promotor de Bira Party a través de WhatsApp. Obtén tu código de invitación para el evento.",
+  keywords: ["promotor", "contacto", "WhatsApp", "invitación", "Bira Party", "entradas"],
+  openGraph: {
+    title: "Contacta con tu Promotor - Bira Party",
+    description: "Encuentra y contacta con tu promotor de Bira Party a través de WhatsApp.",
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Contacta con tu Promotor - Bira Party",
+    description: "Encuentra y contacta con tu promotor de Bira Party a través de WhatsApp.",
+  },
+};

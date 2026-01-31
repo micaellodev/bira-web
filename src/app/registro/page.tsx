@@ -11,6 +11,16 @@ import { IconSquareRoundedX } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
 import { AuroraBackground } from "@/components/aurora-background";
 import { canjearCodigo, CanjearCodigoPayload, CanjearCodigoResponse } from "@/services/codigos";
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Registro de Invitado - Bira Party",
+  description: "Completa tu registro para acceder al evento. Ingresa tus datos personales y obtén tu código QR de invitación.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 const loadingStates = [
   { text: "Verificando documento" },
@@ -19,7 +29,7 @@ const loadingStates = [
   { text: "Verificando teléfono" },
   { text: "Finalizando registro" },
   { text: "Generando código qr" },
-  { text: "¡Bienvenido a Bira!" },
+  { text: "¡Bienvenido a Bira Party!" },
 ];
 
 export default function RegistroPage() {
@@ -126,11 +136,11 @@ export default function RegistroPage() {
 
           {/* Header */}
           <div className="text-center mb-6">
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">
-              Bienvenido a Bira
-            </h2>
+            <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">
+              Completa tu Registro de Invitación
+            </h1>
             <p className="text-sm sm:text-base text-gray-400">
-              Regístrate para comenzar tu experiencia
+              Ingresa tus datos para obtener tu código QR
             </p>
           </div>
 
