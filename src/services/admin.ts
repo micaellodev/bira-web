@@ -77,6 +77,19 @@ export interface AnalyticsEvento {
     validados: number;
 }
 
+export interface CodigoPromotor {
+    id: number;
+    codigo: string;
+    usado: boolean;
+    validadoEvento: boolean;
+    invitado: {
+        nombres: string;
+        apellidoPaterno: string;
+        apellidoMaterno: string;
+        numeroDocumento: string;
+    } | null;
+}
+
 class AdminService {
     private getToken(): string | null {
         if (typeof window === 'undefined') return null;
@@ -131,6 +144,13 @@ class AdminService {
 
     async getPromotorStats(id: number) {
         const response = await axios.get(`${API_URL}${ADMIN_PATH}/promotores/${id}/stats`, {
+            headers: this.getHeaders(),
+        });
+        return response.data;
+    }
+
+    async getPromotorCodes(id: number): Promise<CodigoPromotor[]> {
+        const response = await axios.get(`${API_URL}/codigos/promotor/${id}`, {
             headers: this.getHeaders(),
         });
         return response.data;

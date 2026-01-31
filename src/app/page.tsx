@@ -8,6 +8,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Button } from '@/components/ui/button';
+import { PlaceholdersAndVanishInput } from "@/components/placeholders-and-vanish-input";
 
 export default function HomePage() {
   const [codigo, setCodigo] = useState('');
@@ -100,47 +101,16 @@ export default function HomePage() {
 
           {/* Input container with glass effect */}
           <div className="w-full space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-700 delay-300">
-            {error ? (
-              <Field data-invalid className="w-full">
-                <Input
-                  id="codigo"
-                  placeholder="Ingresa tu código"
-                  value={codigo}
-                  onChange={(e) => setCodigo(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && validar()}
-                  disabled={loading}
-                  aria-invalid
-                  className="bg-white/5 border-red-500/50 backdrop-blur-sm transition-all duration-300 focus:bg-white/10 focus:border-red-500"
-                />
-              </Field>
-            ) : (
-              <Input
-                id="codigo"
-                placeholder="Ingresa tu código"
-                value={codigo}
-                onChange={(e) => setCodigo(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && validar()}
-                disabled={loading}
-                className="w-full bg-white/5 border-white/20 backdrop-blur-sm transition-all duration-300 focus:bg-white/10 focus:border-white/40 focus:shadow-lg focus:shadow-white/10"
+            <div className="w-full flex flex-col items-center justify-center">
+              <PlaceholdersAndVanishInput
+                placeholders={["Ingresa tu código", "Tu código de invitación", "Ej: BIRA-2026"]}
+                onChange={(e) => {
+                  setCodigo(e.target.value);
+                  setError(null);
+                }}
+                onSubmit={validar}
               />
-            )}
-
-            {/* Button with gradient and animation */}
-            <Button
-              variant="outline"
-              onClick={validar}
-              disabled={loading || !codigo.trim()}
-              className="w-full min-h-[48px] bg-white text-black hover:bg-gray-200 border-0 font-semibold transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg hover:shadow-white/20 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-            >
-              {loading ? (
-                <span className="flex items-center gap-2">
-                  <Spinner data-icon="inline-start" />
-                  Validando…
-                </span>
-              ) : (
-                "Validar Código"
-              )}
-            </Button>
+            </div>
           </div>
 
           {/* Error message with animation */}

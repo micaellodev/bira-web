@@ -18,6 +18,9 @@ export default function AsignarCodigosPage() {
     const [loading, setLoading] = useState(false);
     const [promotorInfo, setPromotorInfo] = useState<any>(null);
     const [generatedCodes, setGeneratedCodes] = useState<string[]>([]);
+    const [allCodes, setAllCodes] = useState<any[]>([]);
+    const [filteredCodes, setFilteredCodes] = useState<any[]>([]);
+    const [filter, setFilter] = useState<'all' | 'available' | 'redeemed' | 'validated'>('all');
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
@@ -27,7 +30,25 @@ export default function AsignarCodigosPage() {
         }
 
         loadPromotorInfo();
+        loadPromotorCodes();
     }, [router, promotorId]);
+
+    useEffect(() => {
+        // Apply filter
+        switch (filter) {
+            case 'available':
+                setFilteredCodes(allCodes.filter(c => !c.usado));
+                break;
+            case 'redeemed':
+                setFilteredCodes(allCodes.filter(c => c.usado && !c.validadoEvento));
+                break;
+            case 'validated':
+                setFilteredCodes(allCodes.filter(c => c.validadoEvento));
+                break;
+            default:
+                setFilteredCodes(allCodes);
+        }
+    }, [filter, allCodes]);
 
     const loadPromotorInfo = async () => {
         try {
@@ -35,6 +56,15 @@ export default function AsignarCodigosPage() {
             setPromotorInfo(data);
         } catch (error) {
             console.error('Error loading promotor:', error);
+        }
+    };
+
+    const loadPromotorCodes = async () => {
+        try {
+            const codes = await adminService.getPromotorCodes(promotorId);
+            setAllCodes(codes);
+        } catch (error) {
+            console.error('Error loading codes:', error);
         }
     };
 
@@ -48,6 +78,7 @@ export default function AsignarCodigosPage() {
             const result = await adminService.assignCodesToPromotor(promotorId, parseInt(cantidad));
             setGeneratedCodes(result.codigos);
             await loadPromotorInfo(); // Refresh stats
+            await loadPromotorCodes(); // Refresh all codes
         } catch (err: any) {
             setError(err.response?.data?.message || 'Error al generar códigos');
         } finally {
@@ -55,16 +86,53 @@ export default function AsignarCodigosPage() {
         }
     };
 
+
     const downloadCodes = () => {
         const text = generatedCodes.join('\n');
         const blob = new Blob([text], { type: 'text/plain' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `codigos_promotor_${promotorId}.txt`;
+        a.download = `codigos_nuevos_promotor_${promotorId}.txt`;
         a.click();
         URL.revokeObjectURL(url);
     };
+
+    const downloadAllCodes = () => {
+        const lines = ['CÓDIGOS DEL PROMOTOR', '='.repeat(50), ''];
+
+        filteredCodes.forEach(code => {
+            let status = '✓ DISPONIBLE';
+            if (code.validadoEvento) {
+                status = '✓✓ VALIDADO EN EVENTO';
+            } else if (code.usado) {
+                status = '✓ CANJEADO';
+            }
+
+            lines.push(`${code.codigo} - ${status}`);
+            if (code.invitado) {
+                lines.push(`   Invitado: ${code.invitado.nombres} ${code.invitado.apellidoPaterno} ${code.invitado.apellidoMaterno}`);
+                lines.push(`   Documento: ${code.invitado.numeroDocumento}`);
+            }
+            lines.push('');
+        });
+
+        lines.push('='.repeat(50));
+        lines.push(`Total: ${filteredCodes.length} códigos`);
+        lines.push(`Disponibles: ${filteredCodes.filter(c => !c.usado).length}`);
+        lines.push(`Canjeados: ${filteredCodes.filter(c => c.usado && !c.validadoEvento).length}`);
+        lines.push(`Validados: ${filteredCodes.filter(c => c.validadoEvento).length}`);
+
+        const text = lines.join('\n');
+        const blob = new Blob([text], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `todos_codigos_promotor_${promotorId}.txt`;
+        a.click();
+        URL.revokeObjectURL(url);
+    };
+
 
     return (
         <div className="min-h-screen w-full bg-black text-white">
@@ -158,16 +226,17 @@ export default function AsignarCodigosPage() {
                     )}
                 </div>
 
+
                 {/* Generated Codes Display */}
                 {generatedCodes.length > 0 && (
-                    <div className="bg-white/5 border border-white/10 rounded-xl p-8 backdrop-blur-sm">
+                    <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-8 backdrop-blur-sm mb-6">
                         <div className="flex justify-between items-center mb-4">
-                            <h2 className="text-xl font-bold">Códigos Generados ({generatedCodes.length})</h2>
+                            <h2 className="text-xl font-bold text-green-400">✨ Códigos Recién Generados ({generatedCodes.length})</h2>
                             <Button
                                 onClick={downloadCodes}
-                                className="bg-blue-500 hover:bg-blue-600 text-white"
+                                className="bg-green-500 hover:bg-green-600 text-white"
                             >
-                                📥 Descargar TXT
+                                📥 Descargar Nuevos
                             </Button>
                         </div>
 
@@ -176,7 +245,7 @@ export default function AsignarCodigosPage() {
                                 {generatedCodes.map((code, index) => (
                                     <div
                                         key={index}
-                                        className="bg-white/5 border border-white/10 rounded px-3 py-2 text-center font-mono text-sm hover:bg-white/10 transition-colors"
+                                        className="bg-green-500/20 border border-green-500/30 rounded px-3 py-2 text-center font-mono text-sm hover:bg-green-500/30 transition-colors"
                                     >
                                         {code}
                                     </div>
@@ -184,11 +253,117 @@ export default function AsignarCodigosPage() {
                             </div>
                         </div>
 
-                        <p className="text-gray-400 text-sm mt-4">
-                            💡 Tip: Descarga los códigos y compártelos con el promotor
+                        <p className="text-green-400 text-sm mt-4">
+                            ✅ Códigos generados exitosamente
                         </p>
                     </div>
                 )}
+
+                {/* All Codes Display */}
+                <div className="bg-white/5 border border-white/10 rounded-xl p-8 backdrop-blur-sm">
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                        <h2 className="text-xl font-bold">Todos los Códigos Asignados ({filteredCodes.length})</h2>
+
+                        <div className="flex flex-wrap gap-2 w-full sm:w-auto">
+                            <button
+                                onClick={() => setFilter('all')}
+                                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${filter === 'all'
+                                        ? 'bg-purple-500 text-white'
+                                        : 'bg-white/10 hover:bg-white/20 text-gray-300'
+                                    }`}
+                            >
+                                Todos ({allCodes.length})
+                            </button>
+                            <button
+                                onClick={() => setFilter('available')}
+                                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${filter === 'available'
+                                        ? 'bg-blue-500 text-white'
+                                        : 'bg-white/10 hover:bg-white/20 text-gray-300'
+                                    }`}
+                            >
+                                Disponibles ({allCodes.filter(c => !c.usado).length})
+                            </button>
+                            <button
+                                onClick={() => setFilter('redeemed')}
+                                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${filter === 'redeemed'
+                                        ? 'bg-green-500 text-white'
+                                        : 'bg-white/10 hover:bg-white/20 text-gray-300'
+                                    }`}
+                            >
+                                Canjeados ({allCodes.filter(c => c.usado && !c.validadoEvento).length})
+                            </button>
+                            <button
+                                onClick={() => setFilter('validated')}
+                                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${filter === 'validated'
+                                        ? 'bg-yellow-500 text-white'
+                                        : 'bg-white/10 hover:bg-white/20 text-gray-300'
+                                    }`}
+                            >
+                                Validados ({allCodes.filter(c => c.validadoEvento).length})
+                            </button>
+                        </div>
+                    </div>
+
+                    {filteredCodes.length > 0 ? (
+                        <>
+                            <div className="bg-black/30 rounded-lg p-4 max-h-[500px] overflow-y-auto mb-4">
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                                    {filteredCodes.map((code) => (
+                                        <div
+                                            key={code.id}
+                                            className={`rounded-lg p-3 border transition-colors ${code.validadoEvento
+                                                    ? 'bg-yellow-500/10 border-yellow-500/30 hover:bg-yellow-500/20'
+                                                    : code.usado
+                                                        ? 'bg-green-500/10 border-green-500/30 hover:bg-green-500/20'
+                                                        : 'bg-blue-500/10 border-blue-500/30 hover:bg-blue-500/20'
+                                                }`}
+                                        >
+                                            <div className="flex justify-between items-start mb-2">
+                                                <span className="font-mono font-bold text-lg">{code.codigo}</span>
+                                                <span className={`text-xs px-2 py-1 rounded-full ${code.validadoEvento
+                                                        ? 'bg-yellow-500/20 text-yellow-400'
+                                                        : code.usado
+                                                            ? 'bg-green-500/20 text-green-400'
+                                                            : 'bg-blue-500/20 text-blue-400'
+                                                    }`}>
+                                                    {code.validadoEvento ? '✓✓ Validado' : code.usado ? '✓ Canjeado' : '○ Disponible'}
+                                                </span>
+                                            </div>
+
+                                            {code.invitado && (
+                                                <div className="text-xs text-gray-400 space-y-1 mt-2 pt-2 border-t border-white/10">
+                                                    <p className="font-semibold text-white">
+                                                        {code.invitado.nombres} {code.invitado.apellidoPaterno}
+                                                    </p>
+                                                    <p>Doc: {code.invitado.numeroDocumento}</p>
+                                                </div>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="flex justify-between items-center">
+                                <p className="text-gray-400 text-sm">
+                                    💡 Tip: Usa los filtros para ver códigos por estado
+                                </p>
+                                <Button
+                                    onClick={downloadAllCodes}
+                                    className="bg-blue-500 hover:bg-blue-600 text-white"
+                                >
+                                    📥 Descargar {filter !== 'all' ? 'Filtrados' : 'Todos'}
+                                </Button>
+                            </div>
+                        </>
+                    ) : (
+                        <div className="text-center py-12 text-gray-400">
+                            {allCodes.length === 0
+                                ? '📋 Este promotor aún no tiene códigos asignados. Genera algunos arriba.'
+                                : '🔍 No hay códigos con este filtro.'
+                            }
+                        </div>
+                    )}
+                </div>
             </main>
         </div>
     );

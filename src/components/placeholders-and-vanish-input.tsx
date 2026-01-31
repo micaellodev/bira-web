@@ -155,6 +155,8 @@ export function PlaceholdersAndVanishInput({
     }
   };
 
+  const [shake, setShake] = useState(false);
+
   const vanishAndSubmit = () => {
     setAnimating(true);
     draw();
@@ -171,6 +173,14 @@ export function PlaceholdersAndVanishInput({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    // Validation: Check if value is empty or just whitespace
+    if (!value.trim()) {
+      setShake(true);
+      setTimeout(() => setShake(false), 500); // Reset shake after animation
+      return;
+    }
+
     vanishAndSubmit();
     onSubmit && onSubmit(e);
   };
@@ -178,7 +188,8 @@ export function PlaceholdersAndVanishInput({
     <form
       className={cn(
         "w-full relative max-w-xl mx-auto bg-white dark:bg-zinc-800 h-12 rounded-full overflow-hidden shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),_0px_1px_0px_0px_rgba(25,28,33,0.02),_0px_0px_0px_1px_rgba(25,28,33,0.08)] transition duration-200",
-        value && "bg-gray-50"
+        value && "bg-gray-50",
+        shake && "animate-shake"
       )}
       onSubmit={handleSubmit}
     >

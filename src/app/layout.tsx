@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import { Providers } from "./providers";
 import "./globals.css";
 import { AuroraBackground } from "@/components/aurora-background";
+import { Footer } from "@/components/Footer";
 
 const poppins = Poppins({
   weight: ['300', '400', '500', '600', '700'],
@@ -78,6 +79,7 @@ export default function RootLayout({
         <Providers>
           <AuroraBackground>
             {children}
+            <Footer />
           </AuroraBackground>
         </Providers>
       </body>
