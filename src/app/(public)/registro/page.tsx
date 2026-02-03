@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 import { MultiStepLoader as Loader } from "@/components/ui/multi-step-loader";
 import { IconSquareRoundedX } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
-import { AuroraBackground } from "@/components/aurora-background";
 import { canjearCodigo, CanjearCodigoPayload, CanjearCodigoResponse } from "@/services/codigos";
 
 
@@ -102,14 +101,8 @@ export default function RegistroPage() {
         </button>
       )}
 
-      <AuroraBackground className="min-h-screen w-full flex items-center justify-center bg-black px-4 py-8">
-        {/* Animated background elements */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-white/5 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '4s' }} />
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-white/5 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '6s' }} />
-        </div>
-
-        <div className="relative z-10 shadow-input mx-auto w-full max-w-md rounded-2xl bg-black/50 backdrop-blur-sm border border-white/10 p-6 sm:p-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <div className="min-h-screen w-full flex items-center justify-center px-4 py-8 relative z-10">
+        <div className="relative z-10 shadow-input mx-auto w-full max-w-md rounded-2xl bg-black/60 backdrop-blur-md border border-white/10 p-6 sm:p-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
           {/* Logo */}
           <div className="flex justify-center mb-6">
             <img
@@ -264,7 +257,7 @@ export default function RegistroPage() {
             </p>
           </form>
         </div>
-      </AuroraBackground>
+      </div>
     </>
   );
 }

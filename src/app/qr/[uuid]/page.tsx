@@ -1,9 +1,8 @@
 "use client";
 
-import { CometCard } from "@/components/comet-card";
-import { AuroraBackground } from "@/components/aurora-background";
+import { QrCard } from "@/components/QrCard";
 import React, { useEffect, useState } from "react";
-import { QRCodeSVG } from "qrcode.react";
+import { addToGoogleWallet, addToAppleWallet, getInvitadoByUuid } from "@/services/api";
 import { addToGoogleWallet, addToAppleWallet, getInvitadoByUuid } from "@/services/api";
 import { useParams, useRouter } from "next/navigation";
 
@@ -144,72 +143,16 @@ export default function QRPage() {
     if (!invitado) return null;
 
     return (
-        <AuroraBackground className="min-h-screen w-full flex flex-col items-center justify-center bg-black px-4 py-8">
-            <img src="/logo.png" alt="Logo" className="w-full max-w-[200px] sm:max-w-[280px] mb-8" />
+        <div className="min-h-screen w-full flex flex-col items-center justify-center bg-black overflow-hidden relative px-4 py-8">
+            <img src="/logo.png" alt="Logo" className="w-full max-w-[200px] sm:max-w-[280px] mb-8 relative z-20" />
 
-            <CometCard className="w-full max-w-[340px] sm:max-w-[380px]">
-                <div
-                    className="flex flex-col items-stretch rounded-[16px] border-0 bg-[#1F2121] p-3 saturate-0 sm:p-4"
-                    aria-label={`View invite ${invitado.id}`}
-                >
-                    <div className="mx-2 flex-1">
-                        <div className="relative mt-2 aspect-[3/4] w-full overflow-hidden rounded-[16px]">
-                            <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-black">
-                                <div
-                                    className="absolute inset-0"
-                                    style={{
-                                        backgroundImage:
-                                            "radial-gradient(2px 2px at 20% 30%, white, transparent), radial-gradient(2px 2px at 60% 70%, white, transparent), radial-gradient(1px 1px at 50% 50%, white, transparent), radial-gradient(1px 1px at 80% 10%, white, transparent), radial-gradient(2px 2px at 90% 60%, white, transparent), radial-gradient(1px 1px at 33% 80%, white, transparent)",
-                                        backgroundSize: "200% 200%",
-                                        opacity: 0.4,
-                                    }}
-                                />
-                            </div>
-
-                            <div className="absolute inset-0 flex flex-col justify-between p-4 sm:p-6 z-10">
-                                <div className="text-white drop-shadow-lg">
-                                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-1 sm:mb-2">
-                                        {invitado.nombres}
-                                    </h2>
-                                    <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold mb-2 sm:mb-4">
-                                        {invitado.apellidoPaterno} {invitado.apellidoMaterno}
-                                    </h3>
-                                    <p className="text-base sm:text-lg md:text-xl font-mono opacity-90 font-semibold">
-                                        {invitado.tipoDocumento}: {invitado.numeroDocumento}
-                                    </p>
-                                    {invitado.promotor && (
-                                        <p className="text-xs sm:text-sm mt-2 opacity-90 font-semibold bg-black/20 px-2 py-1 rounded">
-                                            Promotor: {invitado.promotor.nombres}{" "}
-                                            {invitado.promotor.apellidos}
-                                        </p>
-                                    )}
-                                </div>
-
-                                <div className="flex justify-center mt-4">
-                                    <div className="bg-white p-3 sm:p-4 rounded-lg shadow-lg">
-                                        <QRCodeSVG
-                                            value={invitado.qrData}
-                                            size={160}
-                                            level="H"
-                                            includeMargin={false}
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="mt-2 flex flex-shrink-0 items-center justify-between p-3 sm:p-4 font-mono text-white">
-                        <div className="text-xs">Comet Invitation</div>
-                        <div className="text-xs text-gray-300 opacity-50">
-                            #{invitado.codigo || ""}
-                        </div>
-                    </div>
-                </div>
-            </CometCard>
+            {/* Container for the card with some breathing room */}
+            <div className="w-full max-w-[400px]">
+                <QrCard invitado={invitado} qrData={invitado.qrData} />
+            </div>
 
             {/* Wallet Button */}
-            <div className="mt-6 flex flex-col gap-3 w-full max-w-[340px] sm:max-w-[380px]">
+            <div className="mt-8 flex flex-col gap-3 w-full max-w-[340px] sm:max-w-[380px] relative z-20">
                 {/* Error Message */}
                 {error && (
                     <div className="bg-red-500/10 border border-red-500/50 rounded-md px-4 py-2 text-red-400 text-sm">
@@ -238,7 +181,7 @@ export default function QRPage() {
                     )}
                 </button>
             </div>
-        </AuroraBackground >
+        </div>
     );
 }
 
