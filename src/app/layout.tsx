@@ -20,6 +20,13 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/',
   },
+
+  verification: {
+    other: {
+      "facebook-domain-verification": ["oq2h27kr4c7562oqfbs9ve5bl9jjja"],
+    },
+  },
+  
   openGraph: {
     type: 'website',
     locale: 'es_ES',
