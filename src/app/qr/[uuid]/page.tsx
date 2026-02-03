@@ -1,6 +1,7 @@
 "use client";
 
 import { QrCard } from "@/components/QrCard";
+import { AuroraBackground } from "@/components/aurora-background";
 import React, { useEffect, useState } from "react";
 import { addToGoogleWallet, addToAppleWallet, getInvitadoByUuid } from "@/services/api";
 import { useParams, useRouter } from "next/navigation";
@@ -142,45 +143,55 @@ export default function QRPage() {
     if (!invitado) return null;
 
     return (
-        <div className="min-h-screen w-full flex flex-col items-center justify-center bg-black overflow-hidden relative px-4 py-8">
-            <img src="/logo.png" alt="Logo" className="w-full max-w-[200px] sm:max-w-[280px] mb-8 relative z-20" />
+        <AuroraBackground className="min-h-screen w-full flex flex-col items-center justify-center bg-black overflow-hidden relative px-4 py-8">
+            <div className="flex flex-col items-center justify-center w-full z-20 md:scale-90 lg:scale-75 transform-gpu transition-transform duration-300">
+                <img src="/logo.png" alt="Logo" className="w-full max-w-[150px] sm:max-w-[280px] mb-8 relative z-20" />
 
-            {/* Container for the card with some breathing room */}
-            <div className="w-full max-w-[400px]">
-                <QrCard invitado={invitado} qrData={invitado.qrData} />
-            </div>
+                {/* Container for the card with some breathing room */}
+                <div className="w-full max-w-[400px]">
+                    <QrCard invitado={invitado} qrData={invitado.qrData} />
+                </div>
 
-            {/* Wallet Button */}
-            <div className="mt-8 flex flex-col gap-3 w-full max-w-[340px] sm:max-w-[380px] relative z-20">
-                {/* Error Message */}
-                {error && (
-                    <div className="bg-red-500/10 border border-red-500/50 rounded-md px-4 py-2 text-red-400 text-sm">
-                        {error}
-                    </div>
-                )}
-
-                {/* Google Wallet Button */}
-                <button
-                    onClick={handleGoogleWallet}
-                    disabled={loadingGoogle}
-                    className="flex items-center justify-center gap-2 bg-black border border-white/20 rounded-md px-4 py-2.5 hover:bg-gray-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                    {loadingGoogle ? (
-                        <>
-                            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                            <span className="text-white text-sm font-medium">Generando...</span>
-                        </>
-                    ) : (
-                        <>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M21.8 10.5H12.3V13.5H17.7C17.1 16.2 14.7 18 12 18C8.7 18 6 15.3 6 12C6 8.7 8.7 6 12 6C13.5 6 14.9 6.6 15.9 7.5L18.1 5.3C16.5 3.9 14.4 3 12 3C7.0 3 3 7.0 3 12C3 17.0 7.0 21 12 21C16.5 21 20.3 17.7 20.9 13.5C21.0 12.8 21.0 12.4 21.0 12C21.0 11.5 21.0 11.0 20.9 10.5H21.8Z" fill="white" />
-                            </svg>
-                            <span className="text-white text-sm font-medium">Add to Google Wallet</span>
-                        </>
+                {/* Wallet Button */}
+                <div className="mt-8 flex flex-col gap-3 w-full max-w-[340px] sm:max-w-[380px] relative z-20">
+                    {/* Error Message */}
+                    {error && (
+                        <div className="bg-red-500/10 border border-red-500/50 rounded-md px-4 py-2 text-red-400 text-sm">
+                            {error}
+                        </div>
                     )}
-                </button>
+
+                    {/* Google Wallet Button */}
+                    <button
+                        onClick={handleGoogleWallet}
+                        disabled={loadingGoogle}
+                        className="flex items-center justify-center gap-2 bg-black border border-white/20 rounded-md px-4 py-2.5 hover:bg-gray-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        {loadingGoogle ? (
+                            <>
+                                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                <span className="text-white text-sm font-medium">Generando...</span>
+                            </>
+                        ) : (
+                            <>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M21.8 10.5H12.3V13.5H17.7C17.1 16.2 14.7 18 12 18C8.7 18 6 15.3 6 12C6 8.7 8.7 6 12 6C13.5 6 14.9 6.6 15.9 7.5L18.1 5.3C16.5 3.9 14.4 3 12 3C7.0 3 3 7.0 3 12C3 17.0 7.0 21 12 21C16.5 21 20.3 17.7 20.9 13.5C21.0 12.8 21.0 12.4 21.0 12C21.0 11.5 21.0 11.0 20.9 10.5H21.8Z" fill="white" />
+                                </svg>
+                                <span className="text-white text-sm font-medium">Add to Google Wallet</span>
+                            </>
+                        )}
+                    </button>
+                    {/* Apple Wallet Button (Hidden mainly for Android focus, can enable if needed) */}
+                    {/* <button
+                        onClick={handleAppleWallet}
+                        disabled={loadingApple}
+                        className="flex items-center justify-center gap-2 bg-black border border-white/20 rounded-md px-4 py-2.5 hover:bg-gray-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                     >
+                         <span className="text-white text-sm font-medium">Add to Apple Wallet</span>
+                     </button> */}
+                </div>
             </div>
-        </div>
+        </AuroraBackground>
     );
 }
 

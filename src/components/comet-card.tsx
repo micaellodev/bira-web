@@ -96,14 +96,6 @@ export const CometCard = ({
         ref={ref}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleEnd}
-        onTouchStart={(e) => {
-          if (e.touches.length > 0) {
-            updatePosition(e.touches[0].clientX, e.touches[0].clientY);
-          }
-        }}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleEnd}
-        onTouchCancel={handleEnd}
         style={{
           rotateX,
           rotateY,

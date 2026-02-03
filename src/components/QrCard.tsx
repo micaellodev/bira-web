@@ -90,9 +90,13 @@ export const QrCard = ({ invitado, qrData }: QrCardProps) => {
             width: 160,
             height: 160,
             image: "",
+            // Lower error correction = fewer dots = larger blocks (chunkier look)
+            qrOptions: {
+                errorCorrectionLevel: 'L'
+            },
             dotsOptions: {
                 color: "#f472b6", // Pink-400
-                type: "rounded",
+                type: "extra-rounded", // Changed to extra-rounded for more "liquid" feel
             },
             backgroundOptions: {
                 color: "transparent",
@@ -159,7 +163,7 @@ export const QrCard = ({ invitado, qrData }: QrCardProps) => {
                     className="w-80 h-[500px]"
                     innerStyle={{
                         boxShadow: "none",
-                        filter: "drop-shadow(0 0 30px rgba(236, 72, 153, 0.5)) drop-shadow(0 25px 50px rgba(0,0,0,0.9))"
+                        filter: "drop-shadow(0 0 15px rgba(236, 72, 153, 0.4)) drop-shadow(0 10px 20px rgba(0,0,0,0.8))"
                     }}
                 >
                     <div
@@ -170,13 +174,13 @@ export const QrCard = ({ invitado, qrData }: QrCardProps) => {
                     >
                         <TicketBackground />
 
-                        {/* Content */}
-                        <div className="relative z-10 flex h-full w-full flex-col items-center justify-between p-8 pt-12">
-                            <div className="flex flex-col items-center">
+                        {/* Content<div className="flex flex-col items-center">
                                 <img src="/logo.png" alt="Bira Logo" className="h-12 w-auto mb-4" />
                                 <h2 className="text-3xl font-bold text-[#f472b6] tracking-tight">{invitado.nombres}</h2>
                                 <h2 className="text-3xl font-bold text-[#f472b6] tracking-tight">{invitado.apellidoPaterno} {invitado.apellidoMaterno}</h2>
-                            </div>
+                            </div> */}
+                        <div className="relative z-10 flex h-full w-full flex-col items-center justify-between p-8 pt-12">
+
 
                             <div className="relative group p-4">
                                 <div ref={qrRef} className="[&>canvas]:w-full [&>canvas]:h-auto" />
@@ -201,6 +205,6 @@ export const QrCard = ({ invitado, qrData }: QrCardProps) => {
                     </div>
                 </CometCard>
             </motion.div>
-        </div>
+        </div >
     );
 };
