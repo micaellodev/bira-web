@@ -5,6 +5,8 @@ import { AuroraBackground } from '@/components/aurora-background';
 import { Metadata } from 'next';
 import Image from 'next/image';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
     title: 'Contactar Promotor | Bira Party',
     description: 'Encuentra y contacta a tu promotor oficial de Bira Party para obtener tu código de invitación.',
