@@ -3,7 +3,6 @@
 import { QrCard } from "@/components/QrCard";
 import React, { useEffect, useState } from "react";
 import { addToGoogleWallet, addToAppleWallet, getInvitadoByUuid } from "@/services/api";
-import { addToGoogleWallet, addToAppleWallet, getInvitadoByUuid } from "@/services/api";
 import { useParams, useRouter } from "next/navigation";
 
 interface Invitado {
@@ -126,17 +125,17 @@ export default function QRPage() {
 
     if (loading) {
         return (
-            <AuroraBackground className="min-h-screen w-full flex items-center justify-center bg-black">
+            <div className="min-h-screen w-full flex items-center justify-center bg-black">
                 <div className="text-white text-xl">Cargando...</div>
-            </AuroraBackground>
+            </div>
         );
     }
 
     if (error && !invitado) {
         return (
-            <AuroraBackground className="min-h-screen w-full flex items-center justify-center bg-black">
+            <div className="min-h-screen w-full flex items-center justify-center bg-black">
                 <div className="text-red-400 text-xl">{error}</div>
-            </AuroraBackground>
+            </div>
         );
     }
 
