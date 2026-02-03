@@ -69,13 +69,9 @@ export default function HomePage() {
         </div>
       )}
 
-      <main className="relative flex flex-col items-center gap-6 text-center min-h-screen w-full justify-center bg-black text-white px-4 overflow-hidden">
+      <main className="relative flex flex-col items-center gap-6 text-center w-full justify-center text-white px-4 overflow-hidden">
 
-        {/* Animated background elements */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-white/5 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '4s' }} />
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-white/5 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '6s' }} />
-        </div>
+
 
         {/* Content */}
         <div className="relative z-10 flex flex-col items-center gap-6 w-full max-w-md animate-in fade-in slide-in-from-bottom-4 duration-700">
@@ -127,7 +123,7 @@ export default function HomePage() {
           {/* Helper text */}
           <Link
             href="/contacto-promotor"
-            className="text-gray-500 hover:text-gray-300 text-xs sm:text-sm mt-4 animate-in fade-in duration-700 delay-500 transition-colors duration-300 cursor-pointer"
+            className="text-blue-300 hover:text-blue-200 text-sm sm:text-base font-medium mt-4 animate-in fade-in duration-700 delay-500 transition-colors duration-300 cursor-pointer hover:underline"
           >
             ¿No tienes un código? Contacta con tu promotor
           </Link>
@@ -137,7 +133,7 @@ export default function HomePage() {
             <div className="flex flex-wrap justify-center gap-4 text-xs sm:text-sm">
               <Link
                 href="/contacto-promotor"
-                className="text-gray-400 hover:text-white transition-colors duration-300"
+                className="text-gray-300 hover:text-white transition-colors duration-300"
               >
                 Contactar Promotor
               </Link>
