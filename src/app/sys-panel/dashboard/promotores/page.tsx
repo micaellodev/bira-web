@@ -51,13 +51,29 @@ export default function PromotoresPage() {
                 codes: codes
             });
 
+            // 3. Send WhatsApp
+            try {
+                await adminService.sendWhatsAppWelcome({
+                    phone: promoter.telefono, // Promotor data has telefono
+                    names: `${promoter.nombres} ${promoter.apellidoPaterno}`,
+                    email: promoter.email,
+                    codes: codes
+                });
+            } catch (waError) {
+                console.error('Error sending WhatsApp:', waError);
+                // We don't block success if email worked, but we warn.
+                if (confirm('El correo se envió, pero hubo un error enviando el WhatsApp. ¿Deseas ver el error en consola?')) {
+                    console.log(waError);
+                }
+            }
+
             setSentEmails(prev => {
                 const newSet = new Set(prev);
                 newSet.add(promoter.id);
                 return newSet;
             });
 
-            alert('Correo de bienvenida con adjuntos enviado exitosamente');
+            alert('Proceso completado: Correo enviado y WhatsApp procesado.');
         } catch (error) {
             console.error('Error sending welcome email:', error);
             alert('Error al enviar el correo');

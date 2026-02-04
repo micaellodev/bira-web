@@ -222,6 +222,13 @@ class AdminService {
         return response.data;
     }
 
+    async sendWhatsAppWelcome(data: { phone: string; names: string; email: string; codes: any[] }) {
+        const response = await axios.post('/api/send-whatsapp', data, {
+            headers: { 'Content-Type': 'application/json' }
+        });
+        return response.data;
+    }
+
     async deletePromotor(id: number) {
         // Assuming the backend has a delete endpoint at this path
         const response = await axios.delete(`${API_URL}${ADMIN_PATH}/promotores/${id}`, {
