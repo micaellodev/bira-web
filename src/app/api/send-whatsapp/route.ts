@@ -37,8 +37,7 @@ export async function POST(req: Request) {
         console.log(`[NextAPI] Sending WhatsApp to ${names} (${formattedPhone})`);
 
         // 2. Prepare Message
-        const codeListString = Array.isArray(codes) ? codes.map((c: any) => `• ${c.codigo}`).join('\n') : 'No codes found';
-        const messageText = `Hola ${names.split(' ')[0]}! 👋\n\nTe damos la bienvenida al equipo de BIRA | GLOW PARTY 🎉\n\nHemos enviado un correo a ${email} con tus archivos adjuntos (PDF/Excel). 📧\n\nAquí tienes tus códigos de acceso rápido:\n\n${codeListString}\n\n¡Recuerda que tienes recompensas por metas de invitados! 🍻\n\n- La Administración`;
+        const messageText = `✨ ¡Hola ${names.split(' ')[0]}! ✨\n\n🎉 ¡Bienvenido al equipo oficial de BIRA | GLOW PARTY!\n\nTe informamos que hemos enviado tus códigos de promotor junto con el material de apoyo a tu correo electrónico:\n\n📧 ${email}\n\n⚠️ Importante:\nRevisa tu bandeja de entrada (y Spam/No deseados) para descargar los archivos adjuntos (PDF y Excel).\n\nCualquier duda, estamos aquí para apoyarte.\n\n¡Vamos con todo! 🚀\n\n~ La Administración`;
 
         // 3. Send to Backend CRM
         try {
