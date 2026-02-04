@@ -219,15 +219,13 @@ export default function PromotoresPage() {
                                                     Asignar
                                                 </button>
 
-                                                {!sentEmails.has(promotor.id) && (
-                                                    <button
-                                                        onClick={() => handleSendWelcome(promotor)}
-                                                        disabled={processingId === promotor.id}
-                                                        className="px-3 py-1 bg-yellow-500/20 hover:bg-yellow-500/30 text-yellow-400 rounded transition-colors text-xs font-semibold disabled:opacity-50"
-                                                    >
-                                                        {processingId === promotor.id ? '...' : '👋 Bienvenida'}
-                                                    </button>
-                                                )}
+                                                <button
+                                                    onClick={() => handleSendWelcome(promotor)}
+                                                    disabled={processingId === promotor.id}
+                                                    className="px-3 py-1 bg-yellow-500/20 hover:bg-yellow-500/30 text-yellow-400 rounded transition-colors text-xs font-semibold disabled:opacity-50"
+                                                >
+                                                    {processingId === promotor.id ? '...' : '👋 Bienvenida'}
+                                                </button>
 
                                                 <button
                                                     onClick={() => handleDeletePromotor(promotor.id)}
@@ -302,20 +300,18 @@ export default function PromotoresPage() {
                                 </button>
 
                                 <div className="grid grid-cols-2 gap-2">
-                                    {!sentEmails.has(promotor.id) && (
-                                        <button
-                                            onClick={() => handleSendWelcome(promotor)}
-                                            disabled={processingId === promotor.id}
-                                            className="px-4 py-2 bg-yellow-500/20 hover:bg-yellow-500/30 text-yellow-400 rounded-lg transition-colors font-semibold text-sm disabled:opacity-50"
-                                        >
-                                            {processingId === promotor.id ? '...' : 'Enviar Bienvenida'}
-                                        </button>
-                                    )}
+                                    <button
+                                        onClick={() => handleSendWelcome(promotor)}
+                                        disabled={processingId === promotor.id}
+                                        className="px-4 py-2 bg-yellow-500/20 hover:bg-yellow-500/30 text-yellow-400 rounded-lg transition-colors font-semibold text-sm disabled:opacity-50"
+                                    >
+                                        {processingId === promotor.id ? '...' : 'Enviar Bienvenida'}
+                                    </button>
 
                                     <button
                                         onClick={() => handleDeletePromotor(promotor.id)}
                                         disabled={processingId === promotor.id}
-                                        className={`px-4 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-lg transition-colors font-semibold text-sm disabled:opacity-50 ${sentEmails.has(promotor.id) ? 'col-span-2' : ''}`}
+                                        className="px-4 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-lg transition-colors font-semibold text-sm disabled:opacity-50"
                                     >
                                         Eliminar
                                     </button>
