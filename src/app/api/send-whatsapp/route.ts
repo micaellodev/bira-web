@@ -37,7 +37,16 @@ export async function POST(req: Request) {
         console.log(`[NextAPI] Sending WhatsApp to ${names} (${formattedPhone})`);
 
         // 2. Prepare Message
-        const messageText = `✨ ¡Hola ${names.split(' ')[0]}! ✨\n\n🎉 ¡Bienvenido al equipo oficial de BIRA | GLOW PARTY!\n\nTe informamos que hemos enviado tus códigos de promotor junto con el material de apoyo a tu correo electrónico:\n\n📧 ${email}\n\n⚠️ Importante:\nRevisa tu bandeja de entrada (y Spam/No deseados) para descargar los archivos adjuntos (PDF y Excel).\n\nCualquier duda, estamos aquí para apoyarte.\n\n¡Vamos con todo! 🚀\n\n~ La Administración`;
+        let messageText = '';
+        const type = body.type || 'promoter'; // Default to promoter for backward compatibility
+
+        if (type === 'guest') {
+            const qrLink = body.qrLink || 'https://biraparty.lat';
+            messageText = `✨ ¡Hola ${names.split(' ')[0]}! ✨\n\n🎉 Tu confirmación de entrada para BIRA | GLOW PARTY fue correcta.\n\nPuedes ver tu QR en la web y en el correo que te hemos enviado.\n\n🔗 Ver mi QR aquí: ${qrLink}\n\n¡Te esperamos! 🚀\n\n~ BIRA Team`;
+        } else {
+            // Default Promoter Message
+            messageText = `✨ ¡Hola ${names.split(' ')[0]}! ✨\n\n🎉 ¡Bienvenido al equipo oficial de BIRA | GLOW PARTY!\n\nTe informamos que hemos enviado tus códigos de promotor junto con el material de apoyo a tu correo electrónico:\n\n📧 ${email}\n\n⚠️ Importante:\nRevisa tu bandeja de entrada (y Spam/No deseados) para descargar los archivos adjuntos (PDF y Excel).\n\nCualquier duda, estamos aquí para apoyarte.\n\n¡Vamos con todo! 🚀\n\n~ La Administración`;
+        }
 
         // 3. Send to Backend CRM
         try {
