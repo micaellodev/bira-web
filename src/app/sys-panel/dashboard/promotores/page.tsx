@@ -60,13 +60,15 @@ export default function PromotoresPage() {
                     codes: codes
                 });
             } catch (waError: any) {
-                console.error('Error sending WhatsApp:', waError);
+                console.error('Error sending WhatsApp:', waError.response?.data || waError);
+
                 // Extract detailed error from backend response
                 const backendDetail = waError.response?.data?.detail || waError.message;
                 const detailString = typeof backendDetail === 'object' ? JSON.stringify(backendDetail, null, 2) : backendDetail;
 
                 if (confirm(`El correo se envió, pero hubo un error enviando el WhatsApp:\n\n${detailString}\n\n¿Deseas ver más detalles en la consola?`)) {
-                    console.log(waError);
+                    console.log('Full Error:', waError);
+                    console.log('Response Data:', waError.response?.data);
                 }
             }
 
