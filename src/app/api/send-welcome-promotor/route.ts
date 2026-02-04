@@ -154,7 +154,7 @@ export async function POST(req: Request) {
         <body>
           <div class="container">
             <div class="header-image">
-               <div style="font-size: 24px; color: #f472b6; font-weight: bold; letter-spacing: 2px;">BIRA</div>
+               <img src="https://biraparty.lat/logo.png" alt="Bira Party" style="width: 150px; height: auto; display: inline-block;" />
             </div>
             
             <div class="card">
