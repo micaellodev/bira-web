@@ -37,51 +37,47 @@ export async function POST(req: Request) {
         console.log(`[NextAPI] Sending WhatsApp to ${names} (${formattedPhone})`);
 
         // 2. Prepare Message
-        let messageText = '';
         const type = body.type || 'promoter'; // Default to promoter for backward compatibility
 
         if (type === 'guest') {
             const qrLink = body.qrLink || 'https://biraparty.lat';
-            messageText = `✨ ¡Hola ${names.split(' ')[0]}! ✨\n\n🎉 Tu confirmación de entrada para BIRA | GLOW PARTY fue correcta.\n\nPuedes ver tu QR en la web y en el correo que te hemos enviado.\n\n🔗 Ver mi QR aquí: ${qrLink}\n\n¡Te esperamos! 🚀\n\n~ BIRA Team`;
+            const firstName = names.split(' ')[0];
+
+            const messageText = `✨ ¡Hola ${firstName}! ✨\n\n🎉 Tu confirmación de entrada para BIRA | GLOW PARTY fue correcta.\n\nPuedes ver tu QR en la web y en el correo que te hemos enviado.\n\n🔗 Ver mi QR aquí: ${qrLink}\n\n¡Te esperamos! 🚀\n\n~ BIRA Team`;
+
+            try {
+                const response = await axios.post(`${backendUrl}/whatsapp/send`, {
+                    to: formattedPhone,
+                    type: 'text',
+                    text: messageText
+                });
+                return NextResponse.json({ message: 'WhatsApp sent successfully', data: response.data }, { status: 200 });
+            } catch (backendError: any) {
+                console.error('[NextAPI] Free text request failed:', backendError.response?.data || backendError.message);
+                throw backendError;
+            }
         } else {
-            // Default Promoter Message
-            messageText = `✨ ¡Hola ${names.split(' ')[0]}! ✨\n\n🎉 ¡Bienvenido al equipo oficial de BIRA | GLOW PARTY!\n\nTe informamos que hemos enviado tus códigos de promotor junto con el material de apoyo a tu correo electrónico:\n\n📧 ${email}\n\n⚠️ Importante:\nRevisa tu bandeja de entrada (y Spam/No deseados) para descargar los archivos adjuntos (PDF y Excel).\n\nCualquier duda, estamos aquí para apoyarte.\n\n¡Vamos con todo! 🚀\n\n~ La Administración`;
-        }
+            // Default Promoter Message (Text)
+            const messageText = `✨ ¡Hola ${names.split(' ')[0]}! ✨\n\n🎉 ¡Bienvenido al equipo oficial de BIRA | GLOW PARTY!\n\nTe informamos que hemos enviado tus códigos de promotor junto con el material de apoyo a tu correo electrónico:\n\n📧 ${email}\n\n⚠️ Importante:\nRevisa tu bandeja de entrada (y Spam/No deseados) para descargar los archivos adjuntos (PDF y Excel).\n\nCualquier duda, estamos aquí para apoyarte.\n\n¡Vamos con todo! 🚀\n\n~ La Administración`;
 
-        // 3. Send to Backend CRM
-        try {
-            const response = await axios.post(`${backendUrl}/whatsapp/send`, {
-                to: formattedPhone,
-                type: 'text',
-                text: messageText
-            });
-            return NextResponse.json({ message: 'WhatsApp sent successfully', data: response.data }, { status: 200 });
-        } catch (backendError: any) {
-            console.error('[NextAPI] Backend request failed:', backendError.message);
-
-            if (backendError.code === 'ECONNREFUSED') {
-                console.error('[NextAPI] Could not connect to backend. Is it running on port 3001?');
-                return NextResponse.json({
-                    message: 'Backend connection failed (ECONNREFUSED). Is the backend running?',
-                    detail: 'Backend offline/unreachable'
-                }, { status: 502 });
+            try {
+                const response = await axios.post(`${backendUrl}/whatsapp/send`, {
+                    to: formattedPhone,
+                    type: 'text',
+                    text: messageText
+                });
+                return NextResponse.json({ message: 'WhatsApp sent successfully', data: response.data }, { status: 200 });
+            } catch (backendError: any) {
+                console.error('[NextAPI] Backend request failed:', backendError.message);
+                if (backendError.response) {
+                    return NextResponse.json(
+                        { message: 'Error from backend CRM', detail: backendError.response.data },
+                        { status: backendError.response.status || 500 }
+                    );
+                }
+                throw backendError;
             }
-
-            // Return the actual error from backend if available
-            if (backendError.response) {
-                console.error('[NextAPI] Backend response data:', backendError.response.data);
-                return NextResponse.json(
-                    {
-                        message: 'Error from backend CRM',
-                        detail: backendError.response.data
-                    },
-                    { status: backendError.response.status || 500 }
-                );
-            }
-
-            throw backendError; // Re-throw to be caught by outer catch
         }
-
     } catch (error: any) {
         // Detailed error logging
         const errorData = error.response?.data || error.message;
