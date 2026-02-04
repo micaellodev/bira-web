@@ -214,6 +214,21 @@ class AdminService {
         });
         return response.data;
     }
+
+    async sendWelcomePromotor(data: { email: string; names: string }) {
+        const response = await axios.post('/api/send-welcome-promotor', data, {
+            headers: { 'Content-Type': 'application/json' }
+        });
+        return response.data;
+    }
+
+    async deletePromotor(id: number) {
+        // Assuming the backend has a delete endpoint at this path
+        const response = await axios.delete(`${API_URL}${ADMIN_PATH}/promotores/${id}`, {
+            headers: this.getHeaders(),
+        });
+        return response.data;
+    }
 }
 
 export const adminService = new AdminService();

@@ -73,6 +73,22 @@ export default function RegistroPage() {
       }
 
       setLoading(true); // activa el loader
+
+      // Send confirmation email
+      try {
+        await fetch('/api/send-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email,
+            names: `${nombres} ${apellidoPaterno}`,
+            qrLink: `${window.location.origin}/qr/${uuid}`
+          }),
+        });
+      } catch (emailError) {
+        console.error('Error sending email:', emailError);
+      }
+
       setTimeout(() => {
         setLoading(false);
         // Redirect to UUID-based URL

@@ -13,6 +13,8 @@ export default function PromotoresPage() {
     const [promotores, setPromotores] = useState<Promotor[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
+    const [sentEmails, setSentEmails] = useState<Set<number>>(new Set());
+    const [processingId, setProcessingId] = useState<number | null>(null);
 
     useEffect(() => {
         if (!adminService.isAuthenticated()) {
@@ -31,6 +33,51 @@ export default function PromotoresPage() {
             console.error('Error loading promotores:', error);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleSendWelcome = async (promoter: Promotor) => {
+        if (processingId) return;
+        setProcessingId(promoter.id);
+
+        try {
+            await adminService.sendWelcomePromotor({
+                email: promoter.email,
+                names: `${promoter.nombres} ${promoter.apellidoPaterno}`
+            });
+
+            setSentEmails(prev => {
+                const newSet = new Set(prev);
+                newSet.add(promoter.id);
+                return newSet;
+            });
+
+            alert('Correo de bienvenida enviado exitosamente');
+        } catch (error) {
+            console.error('Error sending welcome email:', error);
+            alert('Error al enviar el correo');
+        } finally {
+            setProcessingId(null);
+        }
+    };
+
+    const handleDeletePromotor = async (id: number) => {
+        if (!confirm('¿Estás seguro de eliminar este promotor? Se eliminarán también todos sus códigos y datos asociados. Esta acción no se puede deshacer.')) {
+            return;
+        }
+
+        if (processingId) return;
+        setProcessingId(id);
+
+        try {
+            await adminService.deletePromotor(id);
+            setPromotores(prev => prev.filter(p => p.id !== id));
+            alert('Promotor eliminado exitosamente');
+        } catch (error) {
+            console.error('Error deleting promotor:', error);
+            alert('Error al eliminar el promotor');
+        } finally {
+            setProcessingId(null);
         }
     };
 
@@ -158,12 +205,32 @@ export default function PromotoresPage() {
                                             </span>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm">
-                                            <button
-                                                onClick={() => router.push(`/sys-panel/dashboard/promotores/${promotor.id}/asignar`)}
-                                                className="px-3 py-1 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 rounded transition-colors text-xs font-semibold"
-                                            >
-                                                Asignar Códigos
-                                            </button>
+                                            <div className="flex items-center gap-2">
+                                                <button
+                                                    onClick={() => router.push(`/sys-panel/dashboard/promotores/${promotor.id}/asignar`)}
+                                                    className="px-3 py-1 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 rounded transition-colors text-xs font-semibold"
+                                                >
+                                                    Asignar
+                                                </button>
+
+                                                {!sentEmails.has(promotor.id) && (
+                                                    <button
+                                                        onClick={() => handleSendWelcome(promotor)}
+                                                        disabled={processingId === promotor.id}
+                                                        className="px-3 py-1 bg-yellow-500/20 hover:bg-yellow-500/30 text-yellow-400 rounded transition-colors text-xs font-semibold disabled:opacity-50"
+                                                    >
+                                                        {processingId === promotor.id ? '...' : '👋 Bienvenida'}
+                                                    </button>
+                                                )}
+
+                                                <button
+                                                    onClick={() => handleDeletePromotor(promotor.id)}
+                                                    disabled={processingId === promotor.id}
+                                                    className="px-3 py-1 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded transition-colors text-xs font-semibold disabled:opacity-50"
+                                                >
+                                                    Eliminar
+                                                </button>
+                                            </div>
                                         </td>
                                     </tr>
                                 ))}
@@ -220,12 +287,34 @@ export default function PromotoresPage() {
                                 </div>
                             </div>
 
-                            <button
-                                onClick={() => router.push(`/sys-panel/dashboard/promotores/${promotor.id}/asignar`)}
-                                className="w-full px-4 py-3 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 rounded-lg transition-colors font-semibold"
-                            >
-                                Asignar Códigos
-                            </button>
+                            <div className="flex flex-col gap-2">
+                                <button
+                                    onClick={() => router.push(`/sys-panel/dashboard/promotores/${promotor.id}/asignar`)}
+                                    className="w-full px-4 py-2 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 rounded-lg transition-colors font-semibold text-sm"
+                                >
+                                    Asignar Códigos
+                                </button>
+
+                                <div className="grid grid-cols-2 gap-2">
+                                    {!sentEmails.has(promotor.id) && (
+                                        <button
+                                            onClick={() => handleSendWelcome(promotor)}
+                                            disabled={processingId === promotor.id}
+                                            className="px-4 py-2 bg-yellow-500/20 hover:bg-yellow-500/30 text-yellow-400 rounded-lg transition-colors font-semibold text-sm disabled:opacity-50"
+                                        >
+                                            {processingId === promotor.id ? '...' : 'Enviar Bienvenida'}
+                                        </button>
+                                    )}
+
+                                    <button
+                                        onClick={() => handleDeletePromotor(promotor.id)}
+                                        disabled={processingId === promotor.id}
+                                        className={`px-4 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-lg transition-colors font-semibold text-sm disabled:opacity-50 ${sentEmails.has(promotor.id) ? 'col-span-2' : ''}`}
+                                    >
+                                        Eliminar
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     ))}
 

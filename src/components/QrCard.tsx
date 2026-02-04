@@ -123,7 +123,7 @@ export const QrCard = ({ invitado, qrData }: QrCardProps) => {
     }, [qrData]);
 
     return (
-        <div ref={containerRef} className="relative flex flex-col items-center justify-center min-h-[600px] overflow-visible w-full">
+        <div ref={containerRef} className="relative flex flex-col items-center justify-center min-h-[940px] overflow-visible w-full">
 
             {/* Lanyard String SVG Layer */}
             <svg
@@ -136,7 +136,7 @@ export const QrCard = ({ invitado, qrData }: QrCardProps) => {
                 <motion.path
                     d={lanyardPath}
                     stroke="#18181b"
-                    strokeWidth="12"
+                    strokeWidth="24"
                     fill="none"
                     strokeLinecap="round"
                     initial={{ pathLength: 0 }}
@@ -150,12 +150,17 @@ export const QrCard = ({ invitado, qrData }: QrCardProps) => {
                 style={{
                     x,
                     y,
+                    // Responsive Scaling:
+                    // If window width < 360px (padding 20px each side), scale down.
+                    // Uses CSS min() to ensure it never scales UP past 1.
+                    // Calculation: (100vw - 2rem padding) / 320px base width
                     transform: "scale(min(1, calc((100vw - 2rem) / 320)))"
                 }}
                 drag
-                dragElastic={1.3}
+                dragElastic={1.3} // Very stretchy to allow big movements
                 dragConstraints={containerRef}
                 dragSnapToOrigin
+                // "Ball thrown to floor" effect: high bounce, low damping
                 dragTransition={{ bounceStiffness: 400, bounceDamping: 10 }}
                 className="relative z-20 cursor-grab active:cursor-grabbing touch-none origin-top"
             >
@@ -163,7 +168,8 @@ export const QrCard = ({ invitado, qrData }: QrCardProps) => {
                     className="w-80 h-[500px]"
                     innerStyle={{
                         boxShadow: "none",
-                        filter: "drop-shadow(0 0 15px rgba(236, 72, 153, 0.4)) drop-shadow(0 10px 20px rgba(0,0,0,0.8))"
+                        // Green glow + Deep shadow (Restored)
+                        filter: "drop-shadow(0 0 30px rgba(236, 72, 153, 0.5)) drop-shadow(0 25px 50px rgba(0,0,0,0.9))"
                     }}
                 >
                     <div
@@ -172,26 +178,27 @@ export const QrCard = ({ invitado, qrData }: QrCardProps) => {
                             clipPath: "path('M0 24C0 10.7452 10.7452 0 24 0H90C101.332 0 106.635 1.70014 112 5.5C118.846 10.3496 123.896 23.332 129.5 28.5C138.803 37.0784 148.694 38 160 38C171.306 38 181.197 37.0784 190.5 28.5C196.104 23.332 201.154 10.3496 208 5.5C213.365 1.70014 218.668 0 230 0H296C309.255 0 320 10.7452 320 24V476C320 489.255 309.255 500 296 500H24C10.7452 500 0 489.255 0 476V24Z')"
                         }}
                     >
+                        {/* SVG Background with Custom Shape and Border */}
                         <TicketBackground />
 
-                        {/* Content<div className="flex flex-col items-center">
+                        {/* Content */}
+                        <div className="relative z-10 flex h-full w-full flex-col items-center justify-between p-8 pt-12">
+                            <div className="flex flex-col items-center">
                                 <img src="/logo.png" alt="Bira Logo" className="h-12 w-auto mb-4" />
                                 <h2 className="text-3xl font-bold text-[#f472b6] tracking-tight">{invitado.nombres}</h2>
                                 <h2 className="text-3xl font-bold text-[#f472b6] tracking-tight">{invitado.apellidoPaterno} {invitado.apellidoMaterno}</h2>
-                            </div> */}
-                        <div className="relative z-10 flex h-full w-full flex-col items-center justify-between p-8 pt-12">
-
+                            </div>
 
                             <div className="relative group p-4">
+                                {/* QR Container */}
                                 <div ref={qrRef} className="[&>canvas]:w-full [&>canvas]:h-auto" />
                             </div>
 
+                            {/* Footer Info */}
                             <div className="w-full text-center space-y-4 mb-2">
                                 <div className="space-y-1">
                                     <p className="text-zinc-400 text-xs uppercase tracking-wider">Promotor:</p>
-                                    <p className="text-[#f472b6] text-sm font-medium">
-                                        {invitado.promotor ? `${invitado.promotor.nombres} ${invitado.promotor.apellidos}` : "Online & Barcelona, Spain"}
-                                    </p>
+                                    <p className="text-[#f472b6] text-sm font-medium">Online & Barcelona, Spain</p>
                                 </div>
 
                                 <div className="space-y-1">
