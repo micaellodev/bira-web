@@ -198,7 +198,9 @@ export const QrCard = ({ invitado, qrData }: QrCardProps) => {
                             <div className="w-full text-center space-y-4 mb-2">
                                 <div className="space-y-1">
                                     <p className="text-zinc-400 text-xs uppercase tracking-wider">Promotor:</p>
-                                    <p className="text-[#f472b6] text-sm font-medium">Online & Barcelona, Spain</p>
+                                    <p className="text-[#f472b6] text-sm font-medium">
+                                        {invitado.promotor.nombre} {invitado.promotor.apellidoPaterno} {invitado.promotor.apellidoMaterno}
+                                    </p>
                                 </div>
 
                                 <div className="space-y-1">
