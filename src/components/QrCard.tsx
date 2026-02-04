@@ -196,13 +196,14 @@ export const QrCard = ({ invitado, qrData }: QrCardProps) => {
 
                             {/* Footer Info */}
                             <div className="w-full text-center space-y-4 mb-2">
-                                <div className="space-y-1">
-                                    <p className="text-zinc-400 text-xs uppercase tracking-wider">Promotor:</p>
-                                    <p className="text-[#f472b6] text-sm font-medium">
-                                        {invitado.promotor.nombre} {invitado.promotor.apellidoPaterno} {invitado.promotor.apellidoMaterno}
-                                    </p>
-                                </div>
-
+                                {invitado.promotor && (
+                                    <div className="space-y-1">
+                                        <p className="text-zinc-400 text-xs uppercase tracking-wider">Promotor:</p>
+                                        <p className="text-[#f472b6] text-sm font-medium">
+                                            {invitado.promotor.nombres} {invitado.promotor.apellidos}
+                                        </p>
+                                    </div>
+                                )}
                                 <div className="space-y-1">
                                     <p className="text-zinc-400 text-xs uppercase tracking-wider">Opens in:</p>
                                     <p className="text-[#f472b6] text-sm font-mono">
