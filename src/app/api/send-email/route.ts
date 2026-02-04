@@ -16,13 +16,13 @@ export async function POST(req: Request) {
             host: process.env.SMTP_HOST,
             port: Number(process.env.SMTP_PORT),
             auth: {
-                user: process.env.SMTP_USER,
-                pass: process.env.SMTP_PASS,
+                user: process.env.SMTP_NOREPLY_USER,
+                pass: process.env.SMTP_NOREPLY_PASS,
             },
         });
 
         const mailOptions = {
-            from: process.env.SMTP_FROM,
+            from: process.env.SMTP_NOREPLY_USER,
             to: email,
             subject: 'Confirmación de Registro - Bira Party',
             html: `
