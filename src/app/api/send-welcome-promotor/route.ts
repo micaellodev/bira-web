@@ -104,23 +104,39 @@ export async function POST(req: Request) {
       margin: { left: 15, right: 15 },
     });
 
-    const finalY = (doc as any).lastAutoTable.finalY + 20;
+    const finalY = (doc as any).lastAutoTable.finalY + 15;
+
+    // -- Rewards Section --
+    doc.setFontSize(12);
+    doc.setTextColor(pink[0], pink[1], pink[2]);
+    doc.text('METAS Y RECOMPENSAS', 105, finalY, { align: 'center' });
+
+    doc.setFontSize(10);
+    doc.setTextColor(black[0], black[1], black[2]);
+    const rewardsY = finalY + 7;
+    doc.text('• 20 Invitados: 2 Cervezas Pilsen', 105, rewardsY, { align: 'center' });
+    doc.text('• 30 Invitados: 3 Cervezas Pilsen', 105, rewardsY + 5, { align: 'center' });
+    doc.text('• 50 Invitados: 1 Flor de Caña + Coca Cola + Hielo', 105, rewardsY + 10, { align: 'center' });
+
+    const footerY = rewardsY + 25;
 
     // -- Footer --
     doc.setFontSize(10);
     doc.setTextColor(black[0], black[1], black[2]);
-    doc.text('Síguenos para más información:', 105, finalY, { align: 'center' });
+    doc.text('Síguenos para más información:', 105, footerY, { align: 'center' });
 
     doc.setTextColor(blue[0], blue[1], blue[2]);
     // Note: textWithLink doesn't support centering directly usually, so we calculate approx pos or use separate calls
     // TikTok
-    doc.textWithLink('Tiktok: @Biraparty', 80, finalY + 7, { url: 'https://tiktok.com/@Biraparty', align: 'center' });
+    doc.textWithLink('Tiktok: @Biraparty', 80, footerY + 7, { url: 'https://tiktok.com/@Biraparty', align: 'center' });
     // Instagram
-    doc.textWithLink('Instagram: @Biraparty', 130, finalY + 7, { url: 'https://instagram.com/Biraparty', align: 'center' });
+    doc.textWithLink('Instagram: @Biraparty', 130, footerY + 7, { url: 'https://instagram.com/Biraparty', align: 'center' });
+    // Whatsapp
+    doc.textWithLink('Whatsapp: +51 991991169', 105, footerY + 14, { url: 'https://wa.me/51991991169', align: 'center' });
 
     doc.setTextColor(gray[0], gray[1], gray[2]);
     doc.setFontSize(9);
-    doc.text('Ubicación: Jr Piura 266 al lado del restaurante "El califa"', 105, finalY + 20, { align: 'center' });
+    doc.text('Ubicación: Jr Piura 266 al lado del restaurante "El califa"', 105, footerY + 25, { align: 'center' });
 
     const pdfBuffer = Buffer.from(doc.output('arraybuffer'));
 
