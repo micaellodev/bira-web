@@ -18,85 +18,107 @@ export async function POST(req: Request) {
     const codesList: any[] = Array.isArray(codes) ? codes : [];
 
     // -----------------------
-    // 1. Generate XLSX
+    // 1. Generate XLSX (Refined: Only Codes)
     // -----------------------
     const wb = XLSX.utils.book_new();
-    // Format data for Excel: [Código, Estado, Invitado]
+    // Format data for Excel: Just the header "CÓDIGOS" and the list
     const wsData = [
-      ['Código', 'Estado', 'Invitado'],
-      ...codesList.map((c: any) => [
-        c.codigo,
-        c.usado ? 'Canjeado' : 'Disponible',
-        c.invitado ? `${c.invitado.nombres} ${c.invitado.apellidoPaterno}` : '-',
-      ]),
+      ['CÓDIGOS'],
+      ...codesList.map((c: any) => [c.codigo]),
     ];
     const ws = XLSX.utils.aoa_to_sheet(wsData);
+
+    // Adjust column width for better visibility
+    ws['!cols'] = [{ wch: 20 }];
+
     XLSX.utils.book_append_sheet(wb, ws, 'Códigos');
     const xlsxBuffer = XLSX.write(wb, { type: 'buffer', bookType: 'xlsx' });
 
     // -----------------------
-    // 2. Generate PDF
+    // 2. Generate PDF (Refined: Single Column, Better Layout)
     // -----------------------
-    // Create new PDF document
     const doc = new jsPDF();
+
+    // -- Colors --
+    const pink = [236, 72, 153]; // #ec4899
+    const black = [0, 0, 0];
+    const gray = [80, 80, 80];
+    const blue = [59, 130, 246];
 
     // -- Header --
     doc.setFontSize(22);
-    doc.setTextColor(236, 72, 153); // Pink-400 equivalent approx (#ec4899)
+    doc.setTextColor(pink[0], pink[1], pink[2]);
     doc.text('Bira Party - Glow Edition', 105, 20, { align: 'center' });
 
-    doc.setFontSize(14);
-    doc.setTextColor(0, 0, 0);
-    doc.text('CÓDIGOS DE PROMOTOR', 15, 35);
+    doc.setFontSize(16);
+    doc.setTextColor(black[0], black[1], black[2]);
+    doc.text('CÓDIGOS DE PROMOTOR', 105, 30, { align: 'center' });
+
+    // -- Separator Line --
+    doc.setDrawColor(pink[0], pink[1], pink[2]);
+    doc.setLineWidth(0.5);
+    doc.line(20, 35, 190, 35);
 
     // -- Info Section --
-    doc.setFontSize(10);
-    doc.setTextColor(80, 80, 80);
+    doc.setFontSize(11);
+    doc.setTextColor(gray[0], gray[1], gray[2]);
 
-    doc.text(`Actividad: GLOW PARTY – Fiesta Neón del Tío Bira 😎`, 15, 45);
+    const startInfoY = 45;
+    doc.text(`Promotor:`, 20, startInfoY);
+    doc.setFont("helvetica", "bold");
+    doc.text(names, 45, startInfoY);
+    doc.setFont("helvetica", "normal"); // Reset font
 
-    // Two columns for meta info
-    doc.text(`Fecha: 28/02/2026`, 15, 55);
-    doc.text(`Promotor: ${names}`, 15, 60);
+    doc.text(`Fecha del Evento: 28/02/2026`, 20, startInfoY + 7);
+    doc.text(`Válido hasta: 01/03/2026 - 01:00 AM`, 20, startInfoY + 14);
 
-    doc.text(`General:`, 105, 55, { align: 'center' });
-    doc.text(`Los códigos pueden ser canjeados hasta: 01:00 AM - 01/03/2026`, 105, 60, { align: 'center' });
+    // -- Right Side Link --
+    doc.text(`Canjea tus códigos en:`, 140, startInfoY);
+    doc.setTextColor(blue[0], blue[1], blue[2]);
+    doc.textWithLink('https://biraparty.lat', 140, startInfoY + 7, { url: 'https://biraparty.lat' });
+    doc.setTextColor(gray[0], gray[1], gray[2]); // Reset
 
-    doc.setTextColor(59, 130, 246); // Blue link color
-    doc.textWithLink('https://biraparty.lat', 105, 70, { url: 'https://biraparty.lat', align: 'center' });
-    doc.setTextColor(80, 80, 80); // Reset
-
-    // -- Table of Codes --
-    const tableBody = [];
-    const half = Math.ceil(codesList.length / 2);
-    for (let i = 0; i < half; i++) {
-      const c1 = codesList[i];
-      const c2 = codesList[i + half];
-      tableBody.push([
-        c1 ? c1.codigo : '',
-        c2 ? c2.codigo : ''
-      ]);
-    }
+    // -- Single Column Table --
+    // Mapping simple array of arrays for autoTable
+    const tableBody = codesList.map((c: any) => [c.codigo]);
 
     autoTable(doc, {
-      startY: 80,
-      head: [['Códigos (Lista 1)', 'Códigos (Lista 2)']],
+      startY: startInfoY + 25,
+      head: [['CÓDIGO DE ACCESO']],
       body: tableBody,
       theme: 'grid',
-      headStyles: { fillColor: [0, 0, 0], textColor: [255, 255, 255] },
-      styles: { halign: 'center' },
+      headStyles: {
+        fillColor: [0, 0, 0],
+        textColor: [255, 255, 255],
+        halign: 'center',
+        fontStyle: 'bold'
+      },
+      bodyStyles: {
+        halign: 'center',
+        fontSize: 12,
+        cellPadding: 4
+      },
+      // Center the table, set limited width
+      margin: { left: 70, right: 70 },
     });
 
     const finalY = (doc as any).lastAutoTable.finalY + 20;
 
     // -- Footer --
     doc.setFontSize(10);
-    doc.text('síguenos y entérate de más:', 105, finalY, { align: 'center' });
-    doc.text('Tiktok: Biraparty', 20, finalY + 10);
-    doc.text('Instagram: @Biraparty', 120, finalY + 10);
+    doc.setTextColor(black[0], black[1], black[2]);
+    doc.text('Síguenos para más información:', 105, finalY, { align: 'center' });
 
+    doc.setTextColor(blue[0], blue[1], blue[2]);
+    // Note: textWithLink doesn't support centering directly usually, so we calculate approx pos or use separate calls
+    // TikTok
+    doc.textWithLink('Tiktok: @Biraparty', 80, finalY + 7, { url: 'https://tiktok.com/@Biraparty', align: 'center' });
+    // Instagram
+    doc.textWithLink('Instagram: @Biraparty', 130, finalY + 7, { url: 'https://instagram.com/Biraparty', align: 'center' });
+
+    doc.setTextColor(gray[0], gray[1], gray[2]);
     doc.setFontSize(9);
-    doc.text('Ubicacion: Jr Piura 266 al lado del restaurante "El califa"', 105, finalY + 25, { align: 'center' });
+    doc.text('Ubicación: Jr Piura 266 al lado del restaurante "El califa"', 105, finalY + 20, { align: 'center' });
 
     const pdfBuffer = Buffer.from(doc.output('arraybuffer'));
 
@@ -112,7 +134,7 @@ export async function POST(req: Request) {
       },
     });
 
-    // "Black Card" HTML Design
+    // "Black Card" HTML Design (Same as before)
     const htmlContent = `
         <!DOCTYPE html>
         <html>
@@ -127,14 +149,12 @@ export async function POST(req: Request) {
             .highlight { color: #f472b6; }
             .subtitle { font-size: 16px; color: #e4e4e7; margin-bottom: 30px; line-height: 1.5; }
             .footer { text-align: center; padding: 20px; color: #71717a; font-size: 12px; }
-            .logo-placeholder { font-size: 40px; font-weight: bold; color: transparent; -webkit-text-stroke: 1px #fff; opacity: 0.5; }
           </style>
         </head>
         <body>
           <div class="container">
             <div class="header-image">
-               <!-- Basic text logo logic -->
-               <div style="font-size: 24px; color: #f472b6; font-weight: bold; letter-spacing: 2px;">FOMO</div>
+               <div style="font-size: 24px; color: #f472b6; font-weight: bold; letter-spacing: 2px;">BIRA</div>
             </div>
             
             <div class="card">
@@ -143,7 +163,7 @@ export async function POST(req: Request) {
               <div class="subtitle">
                 Te adjuntamos tus códigos para<br>
                 <strong style="color: #ffffff; font-size: 18px; display: block; margin-top: 10px;">BIRA | GLOW PARTY</strong>
-                <span style="font-size: 14px; color: #a1a1aa;">SUMMER SEASON pres. AL SON DEL CARNAVAL</span>
+                <span style="font-size: 14px; color: #a1a1aa;"></span>
               </div>
 
               <div style="margin-top: 40px; border-top: 1px solid #333; padding-top: 20px;">
@@ -164,7 +184,7 @@ export async function POST(req: Request) {
         `;
 
     const mailOptions = {
-      from: 'notification@biraparty.lat',
+      from: '"BIRA NOTIFICACIONES" <notification@biraparty.lat>',
       to: email,
       subject: 'BIRA | GLOW PARTY - 28/02/2026: Te enviamos tus códigos',
       html: htmlContent,
