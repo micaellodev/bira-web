@@ -2,8 +2,13 @@ import { NextResponse } from 'next/server';
 import axios from 'axios';
 
 export async function POST(req: Request) {
+    let phone, names, email;
     try {
-        const { phone, names, email, codes } = await req.json();
+        const body = await req.json();
+        phone = body.phone;
+        names = body.names;
+        email = body.email;
+        const codes = body.codes;
 
         if (!phone || !names) {
             return NextResponse.json(
@@ -107,9 +112,16 @@ export async function POST(req: Request) {
         return NextResponse.json({ message: 'WhatsApp sent successfully', data: sendRes.data }, { status: 200 });
 
     } catch (error: any) {
-        console.error('Error sending WhatsApp:', error.response?.data || error.message);
+        // Detailed error logging
+        const errorData = error.response?.data || error.message;
+        console.error('Error sending WhatsApp:', JSON.stringify(errorData, null, 2));
+
         return NextResponse.json(
-            { message: 'Error sending WhatsApp', error: error.response?.data || error.message },
+            {
+                message: 'Error sending WhatsApp',
+                detail: errorData,
+                payloadSent: { phone, names } // Echo back safely to see what happened
+            },
             { status: 500 }
         );
     }
