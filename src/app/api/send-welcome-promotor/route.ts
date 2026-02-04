@@ -78,28 +78,30 @@ export async function POST(req: Request) {
     doc.textWithLink('https://biraparty.lat', 140, startInfoY + 7, { url: 'https://biraparty.lat' });
     doc.setTextColor(gray[0], gray[1], gray[2]); // Reset
 
-    // -- Single Column Table --
-    // Mapping simple array of arrays for autoTable
-    const tableBody = codesList.map((c: any) => [c.codigo]);
+    // -- 5-Column Table --
+    const columns = 5;
+    const tableBody = [];
+    for (let i = 0; i < codesList.length; i += columns) {
+      const row = [];
+      for (let j = 0; j < columns; j++) {
+        row.push(codesList[i + j]?.codigo || '');
+      }
+      tableBody.push(row);
+    }
 
     autoTable(doc, {
       startY: startInfoY + 25,
-      head: [['CÓDIGO DE ACCESO']],
+      // No header to save space, or just use it if user wants. User asked for list of codes.
+      // We will skip header to maximize density as requested.
       body: tableBody,
       theme: 'grid',
-      headStyles: {
-        fillColor: [0, 0, 0],
-        textColor: [255, 255, 255],
+      styles: {
         halign: 'center',
-        fontStyle: 'bold'
+        fontSize: 10, // Slightly smaller font to fit
+        cellPadding: 2,
       },
-      bodyStyles: {
-        halign: 'center',
-        fontSize: 12,
-        cellPadding: 4
-      },
-      // Center the table, set limited width
-      margin: { left: 70, right: 70 },
+      // Use more width
+      margin: { left: 15, right: 15 },
     });
 
     const finalY = (doc as any).lastAutoTable.finalY + 20;
