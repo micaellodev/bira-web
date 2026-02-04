@@ -59,10 +59,13 @@ export default function PromotoresPage() {
                     email: promoter.email,
                     codes: codes
                 });
-            } catch (waError) {
+            } catch (waError: any) {
                 console.error('Error sending WhatsApp:', waError);
-                // We don't block success if email worked, but we warn.
-                if (confirm('El correo se envió, pero hubo un error enviando el WhatsApp. ¿Deseas ver el error en consola?')) {
+                // Extract detailed error from backend response
+                const backendDetail = waError.response?.data?.detail || waError.message;
+                const detailString = typeof backendDetail === 'object' ? JSON.stringify(backendDetail, null, 2) : backendDetail;
+
+                if (confirm(`El correo se envió, pero hubo un error enviando el WhatsApp:\n\n${detailString}\n\n¿Deseas ver más detalles en la consola?`)) {
                     console.log(waError);
                 }
             }
