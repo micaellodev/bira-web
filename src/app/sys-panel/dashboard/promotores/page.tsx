@@ -41,9 +41,14 @@ export default function PromotoresPage() {
         setProcessingId(promoter.id);
 
         try {
+            // 1. Fetch codes
+            const codes = await adminService.getPromotorCodes(promoter.id);
+
+            // 2. Send email with codes
             await adminService.sendWelcomePromotor({
                 email: promoter.email,
-                names: `${promoter.nombres} ${promoter.apellidoPaterno}`
+                names: `${promoter.nombres} ${promoter.apellidoPaterno}`,
+                codes: codes
             });
 
             setSentEmails(prev => {
@@ -52,7 +57,7 @@ export default function PromotoresPage() {
                 return newSet;
             });
 
-            alert('Correo de bienvenida enviado exitosamente');
+            alert('Correo de bienvenida con adjuntos enviado exitosamente');
         } catch (error) {
             console.error('Error sending welcome email:', error);
             alert('Error al enviar el correo');
@@ -60,6 +65,7 @@ export default function PromotoresPage() {
             setProcessingId(null);
         }
     };
+
 
     const handleDeletePromotor = async (id: number) => {
         if (!confirm('¿Estás seguro de eliminar este promotor? Se eliminarán también todos sus códigos y datos asociados. Esta acción no se puede deshacer.')) {

@@ -215,7 +215,7 @@ class AdminService {
         return response.data;
     }
 
-    async sendWelcomePromotor(data: { email: string; names: string }) {
+    async sendWelcomePromotor(data: { email: string; names: string; codes: any[] }) {
         const response = await axios.post('/api/send-welcome-promotor', data, {
             headers: { 'Content-Type': 'application/json' }
         });
