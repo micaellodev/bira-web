@@ -10,6 +10,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from '@/components/ui/button';
 import { PlaceholdersAndVanishInput } from "@/components/placeholders-and-vanish-input";
 
+import Image from 'next/image';
+
 export default function HomePage() {
   const [codigo, setCodigo] = useState('');
   const [loading, setLoading] = useState(false);
@@ -72,16 +74,18 @@ export default function HomePage() {
       <main className="relative flex flex-col items-center gap-6 text-center w-full justify-center text-white px-4 overflow-hidden">
 
 
-
         {/* Content */}
         <div className="relative z-10 flex flex-col items-center gap-6 w-full max-w-md animate-in fade-in slide-in-from-bottom-4 duration-700">
 
           {/* Logo with animation */}
-          <div className="transform transition-all duration-500 hover:scale-105">
-            <img
+          <div className="transform transition-all duration-500 hover:scale-105 relative w-full h-auto flex justify-center">
+            <Image
               src="/logo.png"
               alt="Logo"
-              className="w-full max-w-xs sm:max-w-sm mb-2 drop-shadow-2xl"
+              width={300}
+              height={100}
+              priority
+              className="w-full max-w-xs sm:max-w-sm mb-2 drop-shadow-2xl object-contain"
             />
           </div>
 

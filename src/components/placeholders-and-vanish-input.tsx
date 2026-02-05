@@ -100,9 +100,7 @@ export function PlaceholdersAndVanishInput({
     }));
   }, [value]);
 
-  useEffect(() => {
-    draw();
-  }, [value, draw]);
+
 
   const animate = (start: number) => {
     const animateFrame = (pos: number = 0) => {
