@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
+    "dev": "bun run next dev --turbo",
+    "build": "bun run next build",
+    "start": "bun run next start",
+    "lint": "bun run eslint"
   },
   "dependencies": {
     "@heroui/form": "^2.1.29",
@@ -31,19 +31,15 @@
     "next": "16.1.6",
     "nodemailer": "^7.0.13",
     "qr-code-styling": "^1.9.2",
-    "qrcode": "^1.5.4",
-    "qrcode.react": "^4.2.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "react-hook-form": "^7.71.1",
     "recharts": "^3.7.0",
+    "sharp": "^0.34.5",
     "tailwind-merge": "^3.4.0",
-    "xlsx": "^0.18.5",
-    "zod": "^4.3.6"
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "babel-plugin-react-compiler": "1.0.0",

@@ -176,9 +176,8 @@ export const QrCard = ({ invitado, qrData }: QrCardProps) => {
                     className="w-80 h-[500px]"
                     innerStyle={{
                         boxShadow: "none",
-                        // Green glow + Deep shadow (Restored)
-                        filter: "drop-shadow(0 0 30px rgba(236, 72, 153, 0.5)) drop-shadow(0 25px 50px rgba(0,0,0,0.9))"
                     }}
+                    innerClassName="drop-shadow-xl md:[filter:drop-shadow(0_0_30px_rgba(236,72,153,0.5))_drop-shadow(0_25px_50px_rgba(0,0,0,0.9))]"
                 >
                     <div
                         className="relative h-full w-full"

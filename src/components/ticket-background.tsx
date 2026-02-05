@@ -11,9 +11,9 @@ export const TicketBackground = () => (
         <path
             d="M0 24C0 10.7452 10.7452 0 24 0H90C101.332 0 106.635 1.70014 112 5.5C118.846 10.3496 123.896 23.332 129.5 28.5C138.803 37.0784 148.694 38 160 38C171.306 38 181.197 37.0784 190.5 28.5C196.104 23.332 201.154 10.3496 208 5.5C213.365 1.70014 218.668 0 230 0H296C309.255 0 320 10.7452 320 24V476C320 489.255 309.255 500 296 500H24C10.7452 500 0 489.255 0 476V24Z"
             fill="none"
-            stroke="rgba(236, 72, 153, 0.6)" // Pink-500 equivalent
-            strokeWidth="20"
-            style={{ filter: "blur(15px)" }}
+            stroke="rgba(236, 72, 153, 0.3)" // Pink-500 equivalent, reduced opacity
+            strokeWidth="10"
+        // removed filter blur for performance
         />
         {/* Layer 2: Thinner Core for definition */}
         <path
@@ -21,7 +21,6 @@ export const TicketBackground = () => (
             fill="none"
             stroke="#fbcfe8" // Pink-200 (very light pink/white core)
             strokeWidth="2"
-            style={{ filter: "blur(2px)" }}
         />
     </svg>
 );

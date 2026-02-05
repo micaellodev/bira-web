@@ -15,12 +15,14 @@ export const CometCard = ({
   className,
   children,
   innerStyle,
+  innerClassName,
 }: {
   rotateDepth?: number;
   translateDepth?: number;
   className?: string;
   children: React.ReactNode;
   innerStyle?: React.CSSProperties; // Allow custom styles for the inner motion div
+  innerClassName?: string;
 }) => {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -75,7 +77,11 @@ export const CometCard = ({
   };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    updatePosition(e.clientX, e.clientY);
+    // Only trigger glare effect on devices that support hover (desktop/mouse)
+    // to save battery and performance on mobile
+    if (typeof window !== "undefined" && window.matchMedia("(hover: hover)").matches) {
+      updatePosition(e.clientX, e.clientY);
+    }
   };
 
   const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
@@ -105,7 +111,7 @@ export const CometCard = ({
             "rgba(0, 0, 0, 0.01) 0px 520px 146px 0px, rgba(0, 0, 0, 0.04) 0px 333px 133px 0px, rgba(0, 0, 0, 0.26) 0px 83px 83px 0px, rgba(0, 0, 0, 0.29) 0px 21px 46px 0px",
           ...innerStyle,
         }}
-        className="touch-none"
+        className={cn("touch-none", innerClassName)}
         initial={{ scale: 1, z: 0 }}
         whileHover={{
           scale: 1.05,
