@@ -84,7 +84,7 @@ export default function HomePage() {
           </div>
 
           {/* Title with gradient */}
-          <h1 className="text-2xl sm:text-3xl font-bold text-white animate-in fade-in slide-in-from-bottom-2 duration-700 delay-100">
+          <h1 className="text-2xl sm:text-3xl font-bold text-whites">
             Valida tu Código de Invitación
           </h1>
 
