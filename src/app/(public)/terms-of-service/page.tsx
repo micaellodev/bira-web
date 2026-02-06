@@ -8,7 +8,7 @@ export default function TermsOfService() {
                 <h1 className="text-3xl font-bold text-gray-900 mb-6">Condiciones del Servicio</h1>
 
                 <div className="prose prose-blue max-w-none text-gray-600">
-                    <p className="mb-4">Última actualización: {new Date().toLocaleDateString()}</p>
+                    <p className="mb-4">Última actualización: 05/02/2026</p>
 
                     <h2 className="text-xl font-semibold text-gray-800 mt-6 mb-3">1. Acuerdo de Términos</h2>
                     <p className="mb-4">
@@ -45,7 +45,7 @@ export default function TermsOfService() {
                     <Link href="/" className="text-sm font-medium text-blue-600 hover:text-blue-500">
                         &larr; Volver al inicio
                     </Link>
-                    <span className="text-sm text-gray-500">Bira &copy; {new Date().getFullYear()}</span>
+                    <span className="text-sm text-gray-500">Bira &copy; 2026</span>
                 </div>
             </div>
         </div>

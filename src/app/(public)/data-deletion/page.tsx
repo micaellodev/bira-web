@@ -37,7 +37,7 @@ export default function DataDeletion() {
                     <Link href="/" className="text-sm font-medium text-blue-600 hover:text-blue-500">
                         &larr; Volver al inicio
                     </Link>
-                    <span className="text-sm text-gray-500">Bira &copy; {new Date().getFullYear()}</span>
+                    <span className="text-sm text-gray-500">Bira &copy; 2026</span>
                 </div>
             </div>
         </div>
