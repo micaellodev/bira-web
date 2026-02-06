@@ -1,35 +1,40 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
+
 export async function POST(req: Request) {
-    try {
-        const { email, names, qrLink } = await req.json();
+  console.log("API: /api/send-email called");
+  try {
+    const body = await req.json();
+    const { email, names, qrLink } = body;
+    console.log("API: Payload received", { email, names, qrLink });
 
-        if (!email || !names) {
-            return NextResponse.json(
-                { message: 'Email and names are required' },
-                { status: 400 }
-            );
-        }
+    if (!email || !names) {
+      console.error("API: Missing email or names");
+      return NextResponse.json(
+        { message: 'Email and names are required' },
+        { status: 400 }
+      );
+    }
 
-        const transporter = nodemailer.createTransport({
-            host: process.env.SMTP_HOST,
-            port: Number(process.env.SMTP_PORT),
-            auth: {
-                user: process.env.SMTP_NOREPLY_USER,
-                pass: process.env.SMTP_NOREPLY_PASS,
-            },
-        });
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: Number(process.env.SMTP_PORT),
+      auth: {
+        user: process.env.SMTP_NOREPLY_USER,
+        pass: process.env.SMTP_NOREPLY_PASS,
+      },
+    });
 
-        const mailOptions = {
-            from: `"BIRA" <${process.env.SMTP_NOREPLY_USER}>`,
-            to: email,
-            subject: 'Confirmación de Registro - Bira Party',
-            headers: {
-                'X-Entity-Ref-ID': `BIRA-${Date.now()}`, // Prevent threading/spam grouping
-                'List-Unsubscribe': `<mailto:${process.env.SMTP_NOREPLY_USER}?subject=unsubscribe>`
-            },
-            html: `
+    const mailOptions = {
+      from: `"BIRA" <${process.env.SMTP_NOREPLY_USER}>`,
+      to: email,
+      subject: 'Confirmación de Registro - Bira Party',
+      headers: {
+        'X-Entity-Ref-ID': `BIRA-${Date.now()}`, // Prevent threading/spam grouping
+        'List-Unsubscribe': `<mailto:${process.env.SMTP_NOREPLY_USER}?subject=unsubscribe>`
+      },
+      html: `
         <!DOCTYPE html>
         <html>
         <head>
@@ -112,16 +117,16 @@ export async function POST(req: Request) {
         </body>
         </html>
       `,
-        };
+    };
 
-        await transporter.sendMail(mailOptions);
+    await transporter.sendMail(mailOptions);
 
-        return NextResponse.json({ message: 'Email sent successfully' }, { status: 200 });
-    } catch (error: any) {
-        console.error('Error sending email:', error);
-        return NextResponse.json(
-            { message: 'Error sending email', error: error.message },
-            { status: 500 }
-        );
-    }
+    return NextResponse.json({ message: 'Email sent successfully' }, { status: 200 });
+  } catch (error: any) {
+    console.error('API: Error sending email:', error);
+    return NextResponse.json(
+      { message: 'Error sending email', error: error.message },
+      { status: 500 }
+    );
+  }
 }

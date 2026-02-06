@@ -80,12 +80,12 @@ export default function HomePage() {
           {/* Logo with animation */}
           <div className="transform transition-all duration-500 hover:scale-105 relative w-full h-auto flex justify-center">
             <Image
-              src="/logo.png"
+              src="/logo.svg"
               alt="Logo"
-              width={300}
-              height={100}
+              width={162}
+              height={98.86}
               priority
-              className="w-full max-w-xs sm:max-w-sm mb-2 drop-shadow-2xl object-contain"
+              className="w-full max-w-xs sm:max-w-sm mb-2 object-contain"
             />
           </div>
 

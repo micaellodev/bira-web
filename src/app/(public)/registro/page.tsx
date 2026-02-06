@@ -76,7 +76,8 @@ export default function RegistroPage() {
 
       // Send confirmation email
       try {
-        await fetch('/api/send-email', {
+        console.log("Frontend: Sending email to", email);
+        const emailRes = await fetch('/api/send-email', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -85,6 +86,13 @@ export default function RegistroPage() {
             qrLink: `${window.location.origin}/qr/${uuid}`
           }),
         });
+        console.log("Frontend: Email API response status:", emailRes.status);
+        if (!emailRes.ok) {
+          const errorBody = await emailRes.text();
+          console.error("Frontend: Email API failed:", errorBody);
+        } else {
+          console.log("Frontend: Email sent successfully");
+        }
       } catch (emailError) {
         console.error('Error sending email:', emailError);
       }
