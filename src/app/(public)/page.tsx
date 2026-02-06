@@ -10,7 +10,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from '@/components/ui/button';
 import { PlaceholdersAndVanishInput } from "@/components/placeholders-and-vanish-input";
 
-import Image from 'next/image';
+
+import BiraLogo from "@/components/icons/Biralogo";
 
 export default function HomePage() {
   const [codigo, setCodigo] = useState('');
@@ -79,14 +80,7 @@ export default function HomePage() {
 
           {/* Logo with animation */}
           <div className="transform transition-all duration-500 hover:scale-105 relative w-full h-auto flex justify-center">
-            <Image
-              src="/logo.svg"
-              alt="Logo"
-              width={162}
-              height={98.86}
-              priority
-              className="w-full max-w-xs sm:max-w-sm mb-2 object-contain"
-            />
+            <BiraLogo className="w-full max-w-xs sm:max-w-sm mb-2 drop-shadow-2xl" />
           </div>
 
           {/* Title with gradient */}
