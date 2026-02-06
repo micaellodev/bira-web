@@ -96,6 +96,8 @@ export interface InvitadoResponse {
     apellidos: string;
   };
   qrData: string;
+  ticketId?: string;
+  uuid?: string;
 }
 
 export async function getInvitadoByUuid(uuid: string): Promise<InvitadoResponse> {

@@ -55,6 +55,7 @@ export interface CanjearCodigoResponse {
   codigo: string; // Código en texto plano
   uuid: string; // UUID para identificar el QR
   qrData: string; // QR encriptado
+  ticketId: string; // Ticket ID 10 digitos
 }
 
 export async function canjearCodigo(

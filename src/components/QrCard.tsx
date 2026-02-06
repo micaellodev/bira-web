@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import QRCodeStyling from "qr-code-styling";
 import { CometCard } from "./comet-card";
 import { TicketBackground } from "./ticket-background";
-import Image from "next/image";
+import BiraLogo from "@/components/icons/Biralogo"
 import {
     motion,
     useMotionValue,
@@ -190,9 +190,9 @@ export const QrCard = ({ invitado, qrData }: QrCardProps) => {
                         <TicketBackground />
 
                         {/* Content */}
-                        <div className="relative z-10 flex h-full w-full flex-col items-center justify-between p-8 pt-12">
+                        <div className="relative z-10 flex h-full w-full flex-col items-center justify-between p-8 pt-20">
                             <div className="flex flex-col items-center">
-                                <Image src="/logo.png" alt="Bira Logo" width={48} height={48} className="h-12 w-auto mb-4" />
+                                <BiraLogo className="h-12 w-auto mb-4" />
                                 <h2 className="text-3xl font-bold text-[#f472b6] tracking-tight">{invitado.nombres}</h2>
                                 <h2 className="text-3xl font-bold text-[#f472b6] tracking-tight">{invitado.apellidoPaterno} {invitado.apellidoMaterno}</h2>
                             </div>

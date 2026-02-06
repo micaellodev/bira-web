@@ -43,25 +43,30 @@ export async function POST(req: Request) {
             const qrLink = body.qrLink || 'https://biraparty.lat';
             const firstName = names.split(' ')[0];
 
-            // Extract UUID from QR Link for the button
-            // Assumes format: .../qr/UUID
-            const uuid = qrLink.split('/').pop() || 'error-no-uuid';
-            const displayCode = uuid.substring(0, 6).toUpperCase(); // Pseudo-code for display
+            // Extract TicketID/UUID from QR Link
+            // Assumes format: .../qr/TICKET_ID
+            const ticketId = qrLink.split('/').pop() || 'error-no-id';
 
-            console.log(`[NextAPI] Preparing Template 'bira_entrada_ticket' for ${formattedPhone}`);
+            console.log(`[NextAPI] Preparing Template 'bira_confirmacion_ticket' for ${formattedPhone}`);
 
             try {
                 const response = await axios.post(`${backendUrl}/whatsapp/send`, {
                     to: formattedPhone,
                     type: 'template',
-                    templateName: 'bira_entrada_ticket',
+                    templateName: 'bira_confirmacion_ticket',
                     languageCode: 'es',
                     components: [
                         {
+                            type: 'header',
+                            parameters: [
+                                { type: 'text', text: firstName }      // {{1}} Name
+                            ]
+                        },
+                        {
                             type: 'body',
                             parameters: [
-                                { type: 'text', text: firstName },     // {{1}} Name
-                                { type: 'text', text: displayCode }    // {{2}} Code displayed in text
+                                { type: 'text', text: '*BIRA | GLOW PARTY*' }, // {{1}} Event Name
+                                { type: 'text', text: ticketId }               // {{2}} Ticket ID
                             ]
                         },
                         {
@@ -69,7 +74,7 @@ export async function POST(req: Request) {
                             sub_type: 'url',
                             index: 0,
                             parameters: [
-                                { type: 'text', text: uuid }           // Dynamic URL suffix
+                                { type: 'text', text: ticketId }           // Dynamic URL suffix
                             ]
                         }
                     ]
@@ -80,16 +85,33 @@ export async function POST(req: Request) {
                 throw backendError;
             }
         } else {
-            // Default Promoter Message (Text)
-            const messageText = `✨ ¡Hola ${names.split(' ')[0]}! ✨\n\n🎉 ¡Bienvenido al equipo oficial de BIRA | GLOW PARTY!\n\nTe informamos que hemos enviado tus códigos de promotor junto con el material de apoyo a tu correo electrónico:\n\n📧 ${email}\n\n⚠️ Importante:\nRevisa tu bandeja de entrada (y Spam/No deseados) para descargar los archivos adjuntos (PDF y Excel).\n\nCualquier duda, estamos aquí para apoyarte.\n\n¡Vamos con todo! 🚀\n\n~ La Administración`;
+            // Updated Promoter Message (Template)
+            console.log(`[NextAPI] Preparing Template 'material_promotores_bira' for ${formattedPhone}`);
+            const firstName = names.split(' ')[0];
 
             try {
                 const response = await axios.post(`${backendUrl}/whatsapp/send`, {
                     to: formattedPhone,
-                    type: 'text',
-                    text: messageText
+                    type: 'template',
+                    templateName: 'material_promotores_bira',
+                    languageCode: 'es',
+                    components: [
+                        {
+                            type: 'header',
+                            parameters: [
+                                { type: 'text', text: firstName }      // {{1}} Name in Header
+                            ]
+                        },
+                        {
+                            type: 'body',
+                            parameters: [
+                                { type: 'text', text: 'BIRA | GLOW PARTY' }, // {{1}} Event Name
+                                { type: 'text', text: email }                // {{2}} Email
+                            ]
+                        }
+                    ]
                 });
-                return NextResponse.json({ message: 'WhatsApp sent successfully', data: response.data }, { status: 200 });
+                return NextResponse.json({ message: 'WhatsApp Template sent successfully', data: response.data }, { status: 200 });
             } catch (backendError: any) {
                 console.error('[NextAPI] Backend request failed:', backendError.message);
                 if (backendError.response) {

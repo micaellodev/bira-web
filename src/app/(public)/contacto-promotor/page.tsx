@@ -19,7 +19,7 @@ export default function ContactoPromotorPage() {
 
                 {/* Logo with animation */}
                 <div className="transform transition-all duration-500 hover:scale-105">
-                    <div className="relative w-72 h-32 sm:w-96 sm:h-40 mb-2">
+                    <div className="relative w-80 h-36 sm:w-[28rem] sm:h-48 mb-2">
                         <BiraLogo className="object-contain drop-shadow-2xl" />
                     </div>
                 </div>

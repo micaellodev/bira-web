@@ -1,7 +1,7 @@
 import * as React from "react"
 import { SVGProps } from "react"
 const BiraLogo = (props: SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 163 90" {...props}>
         <defs>
             <style>{".cls-1{fill:#fff}"}</style>
         </defs>

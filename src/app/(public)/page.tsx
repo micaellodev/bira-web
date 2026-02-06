@@ -12,7 +12,7 @@ export default function HomePage() {
 
         {/* Logo with animation */}
         <div className="transform transition-all duration-500 hover:scale-105 relative w-full h-auto flex justify-center">
-          <BiraLogo className="w-full max-w-xs sm:max-w-sm mb-2 drop-shadow-2xl" />
+          <BiraLogo className="w-full max-w-sm sm:max-w-md mb-2 drop-shadow-2xl" />
         </div>
 
         {/* Title with gradient */}

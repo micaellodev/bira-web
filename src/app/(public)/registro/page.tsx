@@ -9,7 +9,7 @@ export default function RegistroPage() {
         {/* Logo */}
         <div className="flex justify-center mb-6">
           <BiraLogo
-            className="w-32 sm:w-40 drop-shadow-2xl"
+            className="w-48 sm:w-56 drop-shadow-2xl"
           />
         </div>
 

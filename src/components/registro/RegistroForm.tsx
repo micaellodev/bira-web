@@ -67,6 +67,7 @@ export function RegistroForm() {
 
             // El UUID ahora viene directamente en la respuesta
             const uuid = res.uuid || "";
+            const ticketId = res.ticketId || uuid;
 
             // Guardar datos en sessionStorage como respaldo
             if (typeof window !== 'undefined') {
@@ -85,7 +86,7 @@ export function RegistroForm() {
                     body: JSON.stringify({
                         email,
                         names: `${nombres} ${apellidoPaterno}`,
-                        qrLink: `${window.location.origin}/qr/${uuid}`
+                        qrLink: `${window.location.origin}/qr/${ticketId}`
                     }),
                 });
                 console.log("Frontend: Email API response status:", emailRes.status);
@@ -101,11 +102,11 @@ export function RegistroForm() {
 
             setTimeout(() => {
                 setLoading(false);
-                // Redirect to UUID-based URL
-                if (uuid) {
-                    router.push(`/qr/${uuid}`);
+                // Redirect to TicketID-based URL
+                if (ticketId) {
+                    router.push(`/qr/${ticketId}`);
                 } else {
-                    setError("Error: UUID no encontrado");
+                    setError("Error: Ticket ID no encontrado");
                 }
             }, loadingStates.length * 2000);
         } catch (e: any) {

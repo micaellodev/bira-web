@@ -23,6 +23,7 @@ interface Invitado {
     email: string;
     codigo?: string;
     uuid?: string;
+    ticketId?: string;
     promotor?: {
         id: number;
         nombres: string;
@@ -34,14 +35,14 @@ interface Invitado {
 export default function QRPage() {
     const params = useParams();
     const router = useRouter();
-    const uuid = params.uuid as string;
+    const identifier = params.id as string;
 
     const [invitado, setInvitado] = useState<Invitado | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string>("");
 
     useEffect(() => {
-        if (!uuid) {
+        if (!identifier) {
             router.push("/");
             return;
         }
@@ -53,8 +54,8 @@ export default function QRPage() {
                 if (storedInvitado) {
                     try {
                         const parsed = JSON.parse(storedInvitado);
-                        // Verificar si el UUID coincide (ahora viene en el objeto directamente)
-                        if (parsed.uuid === uuid) {
+                        // Verificar si el UUID o TicketID coincide
+                        if (parsed.uuid === identifier || parsed.ticketId === identifier) {
                             setInvitado(parsed);
                             setLoading(false);
                             // Opcionalmente podemos revalidar con la API en segundo plano
@@ -69,7 +70,8 @@ export default function QRPage() {
 
             // Si no hay en storage o no coincide, buscar en API
             try {
-                const data = await getInvitadoByUuid(uuid);
+                // Cast API response to local Interface which includes ticketId
+                const data = (await getInvitadoByUuid(identifier)) as unknown as Invitado;
                 setInvitado(data);
             } catch (err: any) {
                 console.error("Error fetching invitado:", err);
@@ -85,7 +87,7 @@ export default function QRPage() {
         };
 
         fetchInvitado();
-    }, [uuid, router]);
+    }, [identifier, router]);
 
     if (loading) {
         return (
