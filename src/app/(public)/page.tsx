@@ -3,7 +3,6 @@ import { Suspense } from 'react';
 import BiraLogo from "@/components/icons/Biralogo";
 import { CodigoForm } from "@/components/home/CodigoForm";
 
-export const experimental_ppr = true;
 
 export default function HomePage() {
   return (

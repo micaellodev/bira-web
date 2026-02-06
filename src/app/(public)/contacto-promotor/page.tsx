@@ -6,7 +6,6 @@ import BiraLogo from '@/components/icons/Biralogo';
 import { Suspense } from 'react';
 import { PromotoresList } from '@/components/promotores/PromotoresList';
 
-export const experimental_ppr = true;
 
 export const metadata: Metadata = {
     title: 'Contactar Promotor | Bira Party',
