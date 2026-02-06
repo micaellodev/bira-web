@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import dynamic from 'next/dynamic';
-import Image from 'next/image';
+import BiraLogo from "@/components/icons/Biralogo";
 
 const Loader = dynamic(() => import("@/components/ui/multi-step-loader").then(mod => mod.MultiStepLoader), {
     loading: () => null,
@@ -134,11 +134,7 @@ export function RegistroForm() {
                 <div className="relative z-10 shadow-input mx-auto w-full max-w-md rounded-2xl bg-black/60 backdrop-blur-md border border-white/10 p-6 sm:p-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
                     {/* Logo */}
                     <div className="flex justify-center mb-6">
-                        <Image
-                            src="/logo.png"
-                            alt="Logo"
-                            width={128}
-                            height={128}
+                        <BiraLogo
                             className="w-32 sm:w-40 drop-shadow-2xl"
                         />
                     </div>
