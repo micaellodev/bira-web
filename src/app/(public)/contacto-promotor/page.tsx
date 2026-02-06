@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { AuroraBackground } from '@/components/aurora-background';
 import { Metadata } from 'next';
-import Image from 'next/image';
+import BiraLogo from '@/components/icons/Biralogo';
 
 export const dynamic = 'force-dynamic';
 
@@ -57,21 +57,15 @@ export default async function ContactoPromotorPage() {
                 {/* Logo with animation */}
                 <div className="transform transition-all duration-500 hover:scale-105">
                     <div className="relative w-72 h-32 sm:w-96 sm:h-40 mb-2">
-                        <Image
-                            src="/logo.png"
-                            alt="Logo Bira Party"
-                            fill
-                            className="object-contain drop-shadow-2xl"
-                            priority
-                        />
+                        <BiraLogo className="object-contain drop-shadow-2xl" />
                     </div>
                 </div>
 
                 {/* Title */}
-                <h1 className="text-3xl sm:text-4xl font-bold text-white animate-in fade-in slide-in-from-bottom-2 duration-700 delay-100 text-center">
+                <h1 className="text-3xl sm:text-4xl font-bold text-white text-center">
                     Encuentra y Contacta con tu Promotor
                 </h1>
-                <p className="text-zinc-400 text-base sm:text-lg max-w-2xl animate-in fade-in slide-in-from-bottom-2 duration-700 delay-150 text-center">
+                <p className="text-zinc-400 text-base sm:text-lg max-w-2xl text-center">
                     Selecciona tu promotor y obtén tu código de invitación el evento
                 </p>
 
