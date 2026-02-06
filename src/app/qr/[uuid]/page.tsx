@@ -1,6 +1,11 @@
 "use client";
 
-import { QrCard } from "@/components/QrCard";
+import dynamic from "next/dynamic";
+
+const QrCard = dynamic(() => import("@/components/QrCard").then(mod => mod.QrCard), {
+    ssr: false,
+    loading: () => <div className="w-[320px] h-[500px] animate-pulse bg-white/5 rounded-3xl" />
+});
 import { AuroraBackground } from "@/components/aurora-background";
 import { Footer } from "@/components/Footer";
 import React, { useEffect, useState } from "react";

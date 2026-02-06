@@ -7,8 +7,15 @@ import Head from 'next/head';
 import { Spinner } from "@/components/ui/spinner";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Button } from '@/components/ui/button';
-import { PlaceholdersAndVanishInput } from "@/components/placeholders-and-vanish-input";
+import dynamic from 'next/dynamic';
+
+const PlaceholdersAndVanishInput = dynamic(
+  () => import("@/components/placeholders-and-vanish-input").then((mod) => mod.PlaceholdersAndVanishInput),
+  {
+    ssr: false,
+    loading: () => <div className="w-full h-12 bg-white/5 rounded-full animate-pulse" />,
+  }
+);
 
 
 import BiraLogo from "@/components/icons/Biralogo";

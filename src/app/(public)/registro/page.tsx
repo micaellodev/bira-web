@@ -6,7 +6,12 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { MultiStepLoader as Loader } from "@/components/ui/multi-step-loader";
+import dynamic from 'next/dynamic';
+import Image from 'next/image';
+
+const Loader = dynamic(() => import("@/components/ui/multi-step-loader").then(mod => mod.MultiStepLoader), {
+  loading: () => null,
+});
 import { IconSquareRoundedX } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
 import { canjearCodigo, CanjearCodigoPayload, CanjearCodigoResponse } from "@/services/codigos";
@@ -129,9 +134,11 @@ export default function RegistroPage() {
         <div className="relative z-10 shadow-input mx-auto w-full max-w-md rounded-2xl bg-black/60 backdrop-blur-md border border-white/10 p-6 sm:p-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
           {/* Logo */}
           <div className="flex justify-center mb-6">
-            <img
+            <Image
               src="/logo.png"
               alt="Logo"
+              width={128}
+              height={128}
               className="w-32 sm:w-40 drop-shadow-2xl"
             />
           </div>

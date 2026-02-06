@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from "next/image";
 import { useRouter } from 'next/navigation';
 import { adminService } from '@/services/admin';
 import { Input } from '@/components/ui/input';
@@ -43,9 +44,11 @@ export default function AdminLoginPage() {
 
                 {/* Logo */}
                 <div className="transform transition-all duration-500 hover:scale-105">
-                    <img
+                    <Image
                         src="/logo.png"
                         alt="Logo"
+                        width={384}
+                        height={120}
                         className="w-full max-w-xs sm:max-w-sm mb-2 drop-shadow-2xl"
                     />
                 </div>

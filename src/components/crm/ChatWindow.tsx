@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import { format } from "date-fns";
 import { Send, Image as ImageIcon, Mic, Paperclip } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import NextImage from "next/image";
 
 type Message = {
     id: number;
@@ -121,7 +122,14 @@ export default function ChatWindow({ phoneNumber }: { phoneNumber: string | null
                         >
                             {msg.type === "text" && <p>{msg.content}</p>}
                             {msg.type === "image" && (
-                                <img src={msg.mediaUrl || ""} alt="Sent image" className="rounded-lg max-w-sm" />
+                                <NextImage
+                                    src={msg.mediaUrl || ""}
+                                    alt="Sent image"
+                                    width={384}
+                                    height={384}
+                                    className="rounded-lg max-w-sm w-auto h-auto"
+                                    unoptimized
+                                />
                             )}
                             {msg.type === "audio" && (
                                 <audio controls src={msg.mediaUrl || ""} className="mt-1" />
