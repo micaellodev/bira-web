@@ -8,7 +8,7 @@ export default function HomePage() {
   return (
     <main className="relative flex flex-col items-center gap-6 text-center w-full justify-center text-white px-4 overflow-hidden">
       {/* Content */}
-      <div className="relative z-10 flex flex-col items-center gap-6 w-full max-w-md animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <div className="relative z-10 flex flex-col items-center gap-6 w-full max-w-md">
 
         {/* Logo with animation */}
         <div className="transform transition-all duration-500 hover:scale-105 relative w-full h-auto flex justify-center">

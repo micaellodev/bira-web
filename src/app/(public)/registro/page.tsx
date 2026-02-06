@@ -5,7 +5,7 @@ import BiraLogo from "@/components/icons/Biralogo";
 export default function RegistroPage() {
   return (
     <div className="min-h-screen w-full flex items-center justify-center px-4 py-8 relative z-10">
-      <div className="relative z-10 shadow-input mx-auto w-full max-w-md rounded-2xl bg-black/60 backdrop-blur-md border border-white/10 p-6 sm:p-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <div className="relative z-10 shadow-input mx-auto w-full max-w-md rounded-2xl bg-black/60 backdrop-blur-md border border-white/10 p-6 sm:p-8">
         {/* Logo */}
         <div className="flex justify-center mb-6">
           <BiraLogo

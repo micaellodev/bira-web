@@ -2,16 +2,9 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
-const PlaceholdersAndVanishInput = dynamic(
-    () => import("@/components/placeholders-and-vanish-input").then((mod) => mod.PlaceholdersAndVanishInput),
-    {
-        ssr: false,
-        loading: () => <div className="w-full h-12 bg-white/5 rounded-full animate-pulse" />,
-    }
-);
+import { PlaceholdersAndVanishInput } from "@/components/placeholders-and-vanish-input";
 
 export function CodigoForm() {
     const [codigo, setCodigo] = useState('');
@@ -73,7 +66,7 @@ export function CodigoForm() {
             )}
 
             {/* Input container with glass effect */}
-            <div className="w-full space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-700 delay-300">
+            <div className="w-full space-y-4 animate-in fade-in slide-in-from-bottom-2">
                 <div className="w-full flex flex-col items-center justify-center">
                     <PlaceholdersAndVanishInput
                         placeholders={["Ingresa tu código", "Tu código de invitación", "Ej: BIRA-2026"]}
@@ -100,7 +93,7 @@ export function CodigoForm() {
             {/* Helper text */}
             <Link
                 href="/contacto-promotor"
-                className="text-blue-300 hover:text-blue-200 text-sm sm:text-base font-medium mt-4 animate-in fade-in duration-700 delay-500 transition-colors duration-300 cursor-pointer hover:underline"
+                className="text-blue-300 hover:text-blue-200 text-sm sm:text-base font-medium mt-4 animate-in fade-in transition-colors duration-300 cursor-pointer hover:underline"
             >
                 ¿No tienes un código? Contacta con tu promotor
             </Link>

@@ -4,9 +4,9 @@ const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
   trailingSlash: false,
+  cacheComponents: true,
   experimental: {
     optimizePackageImports: ['@heroui/react', 'lucide-react', 'recharts', 'framer-motion'],
-    cacheComponents: true,
   },
 
   async headers() {
