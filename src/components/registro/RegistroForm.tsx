@@ -96,8 +96,30 @@ export function RegistroForm() {
                 } else {
                     console.log("Frontend: Email sent successfully");
                 }
-            } catch (emailError) {
-                console.error('Error sending email:', emailError);
+
+                // Send WhatsApp
+                console.log("Frontend: Sending WhatsApp to", telefono);
+                const whatsappRes = await fetch('/api/send-whatsapp', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        phone: telefono,
+                        names: `${nombres} ${apellidoPaterno}`,
+                        email, // pass email for promoter template if needed, though guest doesn't use it in header usually
+                        type: 'guest',
+                        qrLink: `${window.location.origin}/qr/${ticketId}`
+                    }),
+                });
+                console.log("Frontend: WhatsApp API response status:", whatsappRes.status);
+                if (!whatsappRes.ok) {
+                    const waErrorBody = await whatsappRes.text();
+                    console.error("Frontend: WhatsApp API failed:", waErrorBody);
+                } else {
+                    console.log("Frontend: WhatsApp sent successfully");
+                }
+
+            } catch (notificationError) {
+                console.error('Error sending notifications:', notificationError);
             }
 
             setTimeout(() => {
