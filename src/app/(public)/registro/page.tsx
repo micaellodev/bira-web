@@ -2,8 +2,6 @@ import { Suspense } from 'react';
 import { RegistroForm } from "@/components/registro/RegistroForm";
 import BiraLogo from "@/components/icons/Biralogo";
 
-export const experimental_ppr = true;
-
 export default function RegistroPage() {
   return (
     <div className="min-h-screen w-full flex items-center justify-center px-4 py-8 relative z-10">
