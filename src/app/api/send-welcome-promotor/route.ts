@@ -177,7 +177,7 @@ export async function POST(req: Request) {
         <body>
           <div class="container">
             <div class="header-image">
-               <img src="https://biraparty.lat/icon_template_email.png" alt="Bira Party" style="width: 150px; height: auto; display: inline-block;" />
+               <img src="https://biraparty.lat/icon_template_email.png" alt="Bira Party" style="width: 250px; height: auto; display: inline-block;" />
             </div>
             
             <div class="card">

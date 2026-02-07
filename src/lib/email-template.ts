@@ -124,7 +124,7 @@ export function generateEmailHtml(names: string, qrLink: string, promoterName?: 
           <div class="top-curve"></div>
           
   <div class="logo-container">
-             <img src="https://biraparty.lat/icon_template_email.png" alt="Bira Party" width="100" style="display: block; margin: 0 auto;">
+             <img src="https://biraparty.lat/icon_template_email.png" alt="Bira Party" width="200" style="display: block; margin: 0 auto;">
           </div>
           
           <div class="guest-name">
