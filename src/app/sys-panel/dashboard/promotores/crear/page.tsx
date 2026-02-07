@@ -23,6 +23,8 @@ export default function CrearPromotorPage() {
         email: '',
         telefono: '',
     });
+    const [dniLookupLoading, setDniLookupLoading] = useState(false);
+    const [dniLookupError, setDniLookupError] = useState('');
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -41,8 +43,52 @@ export default function CrearPromotorPage() {
         }
     };
 
+
+    const lookupDNI = async (dni: string) => {
+        if (dni.length !== 8) return;
+
+        setDniLookupLoading(true);
+        setDniLookupError('');
+
+        try {
+            const response = await fetch('/api/dni-lookup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ dni }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                setDniLookupError(data.error || 'Error al consultar DNI');
+                return;
+            }
+
+            if (data.success && data.data) {
+                setFormData(prev => ({
+                    ...prev,
+                    nombres: data.data.nombres,
+                    apellido_paterno: data.data.apellidoPaterno,
+                    apellido_materno: data.data.apellidoMaterno,
+                }));
+            }
+        } catch (error) {
+            console.error('DNI lookup error:', error);
+            setDniLookupError('Error al consultar DNI');
+        } finally {
+            setDniLookupLoading(false);
+        }
+    };
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+
+        // Trigger DNI lookup when 8 digits are entered
+        if (name === 'dni' && value.length === 8 && /^\d{8}$/.test(value)) {
+            setDniLookupError('');
+            lookupDNI(value);
+        }
     };
 
     return (
@@ -92,16 +138,29 @@ export default function CrearPromotorPage() {
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <div>
                                 <label className="block text-sm font-medium text-gray-400 mb-2">DNI</label>
-                                <Input
-                                    type="text"
-                                    name="dni"
-                                    value={formData.dni}
-                                    onChange={handleChange}
-                                    required
-                                    maxLength={8}
-                                    placeholder="12345678"
-                                    className="w-full bg-white/5 border-white/20"
-                                />
+                                <div className="relative">
+                                    <Input
+                                        type="text"
+                                        name="dni"
+                                        value={formData.dni}
+                                        onChange={handleChange}
+                                        required
+                                        maxLength={8}
+                                        placeholder="12345678"
+                                        className="w-full bg-white/5 border-white/20"
+                                    />
+                                    {dniLookupLoading && (
+                                        <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                                            <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                                        </div>
+                                    )}
+                                </div>
+                                {dniLookupError && (
+                                    <p className="text-red-400 text-xs mt-1">{dniLookupError}</p>
+                                )}
+                                {formData.dni.length < 8 && (
+                                    <p className="text-gray-500 text-xs mt-1">Ingresa 8 dígitos para autocompletar</p>
+                                )}
                             </div>
 
                             <div>

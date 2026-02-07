@@ -39,12 +39,61 @@ export function RegistroForm() {
     const [apellidoMaterno, setApellidoMaterno] = useState("");
     const [email, setEmail] = useState("");
     const [telefono, setTelefono] = useState("");
+    const [dniLookupLoading, setDniLookupLoading] = useState(false);
+    const [dniLookupError, setDniLookupError] = useState("");
 
     useEffect(() => {
         const c = sessionStorage.getItem("codigo");
         if (!c) router.push("/");
         else setCodigo(c);
     }, [router]);
+
+    const lookupDNI = async (dni: string) => {
+        // Only lookup if DNI type and exactly 8 digits
+        if (tipoDocumento !== "DNI" || dni.length !== 8) {
+            return;
+        }
+
+        setDniLookupLoading(true);
+        setDniLookupError("");
+
+        try {
+            const response = await fetch('/api/dni-lookup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ dni }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                setDniLookupError(data.error || 'Error al consultar DNI');
+                return;
+            }
+
+            if (data.success && data.data) {
+                // Auto-fill the fields
+                setNombres(data.data.nombres);
+                setApellidoPaterno(data.data.apellidoPaterno);
+                setApellidoMaterno(data.data.apellidoMaterno);
+            }
+        } catch (error) {
+            console.error('DNI lookup error:', error);
+            setDniLookupError('Error al consultar DNI');
+        } finally {
+            setDniLookupLoading(false);
+        }
+    };
+
+    const handleDocumentoChange = (value: string) => {
+        setNumeroDocumento(value);
+        setDniLookupError("");
+
+        // Trigger lookup when 8 digits are entered
+        if (value.length === 8 && /^\d{8}$/.test(value)) {
+            lookupDNI(value);
+        }
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -184,14 +233,27 @@ export function RegistroForm() {
                     <Label htmlFor="numeroDocumento" className="text-white font-medium">
                         Número de Documento
                     </Label>
-                    <Input
-                        id="numeroDocumento"
-                        value={numeroDocumento}
-                        onChange={(e) => setNumeroDocumento(e.target.value)}
-                        placeholder="12345678"
-                        required
-                        className="bg-white/5 border-white/20 text-white placeholder:text-gray-500 backdrop-blur-sm transition-all duration-300 focus:bg-white/10 focus:border-white/40"
-                    />
+                    <div className="relative">
+                        <Input
+                            id="numeroDocumento"
+                            value={numeroDocumento}
+                            onChange={(e) => handleDocumentoChange(e.target.value)}
+                            placeholder="12345678"
+                            required
+                            className="bg-white/5 border-white/20 text-white placeholder:text-gray-500 backdrop-blur-sm transition-all duration-300 focus:bg-white/10 focus:border-white/40"
+                        />
+                        {dniLookupLoading && (
+                            <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                            </div>
+                        )}
+                    </div>
+                    {dniLookupError && (
+                        <p className="text-red-400 text-xs mt-1">{dniLookupError}</p>
+                    )}
+                    {tipoDocumento === "DNI" && numeroDocumento.length < 8 && (
+                        <p className="text-gray-500 text-xs mt-1">Ingresa 8 dígitos para autocompletar</p>
+                    )}
                 </LabelInputContainer>
 
                 {/* Nombres */}
