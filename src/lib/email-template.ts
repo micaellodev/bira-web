@@ -164,6 +164,9 @@ export function generateEmailText(names: string, qrLink: string, promoterName?: 
   const fullNameUpper = names.toUpperCase();
   const safePromoterName = promoterName || 'Bira Party';
 
+  // Generate QR Code URL for text version
+  const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(qrLink)}&color=ec4899&bgcolor=0f172a&margin=10`;
+
   return `
       ¡Hola ${firstName}!
       
@@ -174,6 +177,9 @@ export function generateEmailText(names: string, qrLink: string, promoterName?: 
       
       Puedes ver tu código QR y los detalles de tu acceso en el siguiente enlace:
       ${qrLink}
+      
+      Enlace directo a la imagen del código QR:
+      ${qrCodeUrl}
       
       Te esperamos el 28 de Febrero de 2026.
     `;
