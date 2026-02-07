@@ -76,6 +76,22 @@ async function testRoutes() {
             console.log(`DELETE /promotores/123: ${e.response?.status} ${e.response?.statusText}`);
         }
 
+        // Try DELETE on /sys-mgmt/promotor/123 (Singular)
+        try {
+            await axios.delete(`${API_URL}${ADMIN_PATH}/promotor/123`);
+            console.log(`DELETE ${ADMIN_PATH}/promotor/123: 200 OK`);
+        } catch (e: any) {
+            console.log(`DELETE ${ADMIN_PATH}/promotor/123: ${e.response?.status} ${e.response?.statusText}`);
+        }
+
+        // Try DELETE on /promotor/123 (Singular Public)
+        try {
+            await axios.delete(`${API_URL}/promotor/123`);
+            console.log(`DELETE /promotor/123: 200 OK`);
+        } catch (e: any) {
+            console.log(`DELETE /promotor/123: ${e.response?.status} ${e.response?.statusText}`);
+        }
+
     } catch (error) {
         console.error("Global error", error);
     }
