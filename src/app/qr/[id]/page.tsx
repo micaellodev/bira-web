@@ -48,39 +48,42 @@ export default function QRPage() {
         }
 
         const fetchInvitado = async () => {
-            // Intentar obtener de sessionStorage primero para inmediatez
-            if (typeof window !== 'undefined') {
-                const storedInvitado = sessionStorage.getItem('invitado');
-                if (storedInvitado) {
-                    try {
-                        const parsed = JSON.parse(storedInvitado);
-                        // Verificar si el UUID o TicketID coincide
-                        if (parsed.uuid === identifier || parsed.ticketId === identifier) {
-                            setInvitado(parsed);
-                            setLoading(false);
-                            // Opcionalmente podemos revalidar con la API en segundo plano
-                            // pero para el usuario ya mostramos la info
-                            return;
-                        }
-                    } catch (e) {
-                        console.error("Error parsing session storage", e);
-                    }
-                }
-            }
-
-            // Si no hay en storage o no coincide, buscar en API
+            // Primero intentar desde la API (funciona en cualquier dispositivo)
             try {
-                // Cast API response to local Interface which includes ticketId
+                console.log(`Fetching invitado from API: ${identifier}`);
                 const data = (await getInvitadoByUuid(identifier)) as unknown as Invitado;
                 setInvitado(data);
+                setLoading(false);
+
+                // Guardar en localStorage para acceso rápido futuro
+                if (typeof window !== 'undefined') {
+                    localStorage.setItem('invitado', JSON.stringify(data));
+                }
+                return;
             } catch (err: any) {
-                console.error("Error fetching invitado:", err);
+                console.error("Error fetching from API:", err);
 
-                // Si ya tenemos datos del storage (aunque sea como fallback final), no mostramos error
-                // Pero aquí ya verificamos storage arriba. Si llegamos aquí es que falló API y no había storage.
+                // Si falla la API, intentar localStorage como fallback
+                if (typeof window !== 'undefined') {
+                    const storedInvitado = localStorage.getItem('invitado');
+                    if (storedInvitado) {
+                        try {
+                            const parsed = JSON.parse(storedInvitado);
+                            // Verificar si el UUID o TicketID coincide
+                            if (parsed.uuid === identifier || parsed.ticketId === identifier) {
+                                console.log("Using data from localStorage");
+                                setInvitado(parsed);
+                                setLoading(false);
+                                return;
+                            }
+                        } catch (e) {
+                            console.error("Error parsing local storage", e);
+                        }
+                    }
+                }
 
+                // Si todo falla, mostrar error
                 setError("No se pudo cargar la información. Intenta recargar la página.");
-                // No redirigir automáticamente para dar tiempo a leer o reintentar
             } finally {
                 setLoading(false);
             }

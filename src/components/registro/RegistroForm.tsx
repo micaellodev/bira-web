@@ -118,10 +118,10 @@ export function RegistroForm() {
             const uuid = res.uuid || "";
             const ticketId = res.ticketId || uuid;
 
-            // Guardar datos en sessionStorage como respaldo
+            // Guardar datos en localStorage para acceso rápido
             if (typeof window !== 'undefined') {
-                sessionStorage.setItem('invitado', JSON.stringify(res));
-                sessionStorage.setItem('qrData', res.qrData);
+                localStorage.setItem('invitado', JSON.stringify(res));
+                localStorage.setItem('qrData', res.qrData);
             }
 
             setLoading(true); // activa el loader
@@ -135,7 +135,9 @@ export function RegistroForm() {
                     body: JSON.stringify({
                         email,
                         names: `${nombres} ${apellidoPaterno}`,
-                        qrLink: `${window.location.origin}/qr/${ticketId}`
+                        qrLink: `${process.env.NEXT_PUBLIC_APP_URL || window.location.origin}/qr/${ticketId}`,
+                        qrData: res.qrData,
+                        promoterName: `${res.promotor.nombres} ${res.promotor.apellidos}`
                     }),
                 });
                 console.log("Frontend: Email API response status:", emailRes.status);
@@ -156,7 +158,7 @@ export function RegistroForm() {
                         names: `${nombres} ${apellidoPaterno}`,
                         email, // pass email for promoter template if needed, though guest doesn't use it in header usually
                         type: 'guest',
-                        qrLink: `${window.location.origin}/qr/${ticketId}`
+                        qrLink: `${process.env.NEXT_PUBLIC_APP_URL || window.location.origin}/qr/${ticketId}`
                     }),
                 });
                 console.log("Frontend: WhatsApp API response status:", whatsappRes.status);

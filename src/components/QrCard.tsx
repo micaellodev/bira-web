@@ -96,8 +96,8 @@ export const QrCard = ({ invitado, qrData }: QrCardProps) => {
 
     useEffect(() => {
         const qrCode = new QRCodeStyling({
-            width: 160,
-            height: 160,
+            width: 190,
+            height: 190,
             image: "",
             // Lower error correction = fewer dots = larger blocks (chunkier look)
             qrOptions: {
@@ -183,18 +183,18 @@ export const QrCard = ({ invitado, qrData }: QrCardProps) => {
                     <div
                         className="relative h-full w-full"
                         style={{
-                            clipPath: "path('M0 24C0 10.7452 10.7452 0 24 0H90C101.332 0 106.635 1.70014 112 5.5C118.846 10.3496 123.896 23.332 129.5 28.5C138.803 37.0784 148.694 38 160 38C171.306 38 181.197 37.0784 190.5 28.5C196.104 23.332 201.154 10.3496 208 5.5C213.365 1.70014 218.668 0 230 0H296C309.255 0 320 10.7452 320 24V476C320 489.255 309.255 500 296 500H24C10.7452 500 0 489.255 0 476V24Z')"
+                            // Removed clipPath to prevent border clipping
                         }}
                     >
                         {/* SVG Background with Custom Shape and Border */}
                         <TicketBackground />
 
                         {/* Content */}
-                        <div className="relative z-10 flex h-full w-full flex-col items-center justify-between p-8 pt-20">
+                        <div className="relative z-10 flex h-full w-full flex-col items-center justify-between p-8 pt-20 pb-10">
                             <div className="flex flex-col items-center">
                                 <BiraLogo className="h-12 w-auto mb-4" />
-                                <h2 className="text-3xl font-bold text-[#f472b6] tracking-tight">{invitado.nombres}</h2>
-                                <h2 className="text-3xl font-bold text-[#f472b6] tracking-tight">{invitado.apellidoPaterno} {invitado.apellidoMaterno}</h2>
+                                <h2 className="text-3xl font-bold text-[#f472b6] tracking-tight text-center">{invitado.nombres}</h2>
+                                <h2 className="text-3xl font-bold text-[#f472b6] tracking-tight text-center">{invitado.apellidoPaterno} {invitado.apellidoMaterno}</h2>
                             </div>
 
                             <div className="relative group p-4">
@@ -203,7 +203,7 @@ export const QrCard = ({ invitado, qrData }: QrCardProps) => {
                             </div>
 
                             {/* Footer Info */}
-                            <div className="w-full text-center space-y-4 mb-2">
+                            <div className="w-full text-center space-y-3">
                                 {invitado.promotor && (
                                     <div className="space-y-1">
                                         <p className="text-zinc-400 text-xs uppercase tracking-wider">Promotor:</p>

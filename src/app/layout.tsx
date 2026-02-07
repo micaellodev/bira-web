@@ -26,7 +26,7 @@ export const metadata: Metadata = {
       "facebook-domain-verification": ["oq2h27kr4c7562oqfbs9ve5bl9jjja"],
     },
   },
-  
+
   openGraph: {
     type: 'website',
     locale: 'es_ES',
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     siteName: "Bira Party",
     images: [
       {
-        url: '/logo.png',
+        url: '/logo.svg',
         width: 1200,
         height: 630,
         alt: 'Bira Party',

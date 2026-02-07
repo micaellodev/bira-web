@@ -150,6 +150,8 @@ export async function POST(req: Request) {
         user: process.env.SMTP_NOTIFICATION_USER,
         pass: process.env.SMTP_NOTIFICATION_PASS,
       },
+      secure: false, // Use false for port 587
+      requireTLS: true, // Use STARTTLS
     });
 
     // "Black Card" HTML Design (Same as before)
