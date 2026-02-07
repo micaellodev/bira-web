@@ -143,6 +143,9 @@ export async function POST(req: Request) {
     // -----------------------
     // 3. Send Email
     // -----------------------
+
+    // Removed sensitive debug logs
+
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
       port: Number(process.env.SMTP_PORT),
@@ -226,7 +229,12 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ message: 'Welcome email sent successfully' }, { status: 200 });
   } catch (error: any) {
-    console.error('Error sending welcome email:', error);
+    console.error('Error sending welcome email:', {
+      message: error.message,
+      code: error.code,
+      response: error.response,
+      command: error.command
+    });
     return NextResponse.json(
       { message: 'Error sending email', error: error.message },
       { status: 500 }
