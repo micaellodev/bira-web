@@ -47,11 +47,11 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: "Bira Party - El Evento del Año",
     description: "Valida tu código de invitación y accede a Bira Party. Tu experiencia comienza aquí.",
-    images: ['/logo.png'],
+    images: ['/logo.svg'],
   },
   icons: {
     icon: '/favicon.ico',
-    apple: '/logo.png',
+    apple: '/logo.svg',
   },
   robots: {
     index: true,
