@@ -18,6 +18,9 @@ export async function POST(req: Request) {
       );
     }
 
+
+    // Removed sensitive debug logs
+
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
       port: Number(process.env.SMTP_PORT),
@@ -48,7 +51,12 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ message: 'Email sent successfully' }, { status: 200 });
   } catch (error: any) {
-    console.error('API: Error sending email:', error);
+    console.error('API: Error sending email:', {
+      message: error.message,
+      code: error.code,
+      response: error.response,
+      command: error.command
+    });
     return NextResponse.json(
       { message: 'Error sending email', error: error.message },
       { status: 500 }
