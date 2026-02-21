@@ -22,7 +22,7 @@ export default function AdminLoginPage() {
         setError(null);
 
         try {
-            await adminService.login(password);
+            await adminService.login(password.trim());
             router.push('/sys-panel/dashboard');
         } catch (err: any) {
             setError(err.response?.data?.message || 'Contraseña incorrecta');
