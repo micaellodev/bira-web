@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Suspense } from 'react';
 import BiraLogo from "@/components/icons/Biralogo";
 import { CodigoForm } from "@/components/home/CodigoForm";
-import { FloatingPromo } from "@/components/home/FloatingPromo";
+//import { FloatingPromo } from "@/components/home/FloatingPromo";
 
 export default function HomePage() {
   return (
@@ -53,7 +53,7 @@ export default function HomePage() {
       </div>
 
       {/* Floating Promo Announcement */}
-      <FloatingPromo />
+      {/*<FloatingPromo />*/}
     </main>
   );
 }
