@@ -7,6 +7,7 @@ import { adminService } from '@/services/admin';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
+import BiraLogo from '@/components/icons/Biralogo';
 
 export default function AdminLoginPage() {
     const [password, setPassword] = useState('');
@@ -44,11 +45,7 @@ export default function AdminLoginPage() {
 
                 {/* Logo */}
                 <div className="transform transition-all duration-500 hover:scale-105">
-                    <Image
-                        src="/logo.png"
-                        alt="Logo"
-                        width={384}
-                        height={120}
+                    <BiraLogo
                         className="w-full max-w-xs sm:max-w-sm mb-2 drop-shadow-2xl"
                     />
                 </div>

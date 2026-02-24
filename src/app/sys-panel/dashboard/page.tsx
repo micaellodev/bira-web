@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { adminService, DashboardStats, AnalyticsPromotor, AnalyticsEvento } from '@/services/admin';
 import dynamic from 'next/dynamic';
 import { MobileNav } from '@/components/MobileNav';
+import BiraLogo from '@/components/icons/Biralogo';
 
 const DashboardCharts = dynamic(() => import('@/components/admin/DashboardCharts'), {
     loading: () => (
@@ -92,7 +93,7 @@ export default function DashboardPage() {
                         <div className="flex justify-between items-center">
                             <div className="flex items-center gap-3">
                                 <Link href="/sys-panel/dashboard" className="relative w-20 h-20 sm:w-24 sm:h-24">
-                                    <Image src="/logo.png" alt="Bira" fill className="object-contain" />
+                                    <BiraLogo className="object-contain" />
                                 </Link>
                             </div>
 
