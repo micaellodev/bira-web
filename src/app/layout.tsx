@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     images: ['/logo.svg'],
   },
   icons: {
-    icon: '/favicon.ico',
+    icon: '/loguito_3.ico',
     apple: '/logo.svg',
   },
   robots: {
