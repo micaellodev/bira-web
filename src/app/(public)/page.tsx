@@ -9,12 +9,7 @@ export default function HomePage() {
     <main className="relative flex flex-col items-center gap-6 text-center w-full justify-center px-4 py-8">
       {/* Reservas button — fixed top-right, same height as logo */}
       <div className="fixed top-0 right-0 z-50 p-4 sm:p-6">
-        <Link
-          href="/reservas"
-          className="backdrop-blur-md bg-white/10 border border-white/20 hover:bg-white/20 text-white px-5 py-2 rounded-full font-semibold transition-all duration-300 [text-shadow:0_1px_2px_rgb(0_0_0/0.5)] shadow-xl hover:scale-105 active:scale-95"
-        >
-          Reservas
-        </Link>
+
       </div>
 
       {/* Content */}

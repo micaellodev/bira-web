@@ -1,0 +1,6 @@
+<Link
+          href="/reservas"
+          className="backdrop-blur-md bg-white/10 border border-white/20 hover:bg-white/20 text-white px-5 py-2 rounded-full font-semibold transition-all duration-300 [text-shadow:0_1px_2px_rgb(0_0_0/0.5)] shadow-xl hover:scale-105 active:scale-95"
+        >
+          Reservas
+        </Link>
