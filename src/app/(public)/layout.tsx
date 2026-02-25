@@ -16,7 +16,7 @@ export default function PublicLayout({
                 playsInline
                 className="hidden md:block absolute inset-0 w-full h-full object-cover z-0 scale-105"
             >
-                <source src="/background.mp4" type="video/mp4" />
+                <source src="https://pptmoljiblztxdfwjbsr.supabase.co/storage/v1/object/public/background/background.mp4" type="video/mp4" />
             </video>
 
             {/* Video Background Mobile */}
@@ -27,7 +27,7 @@ export default function PublicLayout({
                 playsInline
                 className="block md:hidden absolute inset-0 w-full h-full object-cover z-0 scale-105"
             >
-                <source src="/background_phone.mp4" type="video/mp4" />
+                <source src="https://pptmoljiblztxdfwjbsr.supabase.co/storage/v1/object/public/background/background_phone.mp4" type="video/mp4" />
             </video>
 
             {/* Audio Background */}
