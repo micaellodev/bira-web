@@ -1,5 +1,6 @@
 import { Footer } from "@/components/Footer";
 import { AudioBackground } from "@/components/AudioBackground";
+import { VideoBackground } from "@/components/home/VideoBackground";
 
 export default function PublicLayout({
     children,
@@ -8,27 +9,8 @@ export default function PublicLayout({
 }) {
     return (
         <div className="relative min-h-screen flex flex-col items-center text-white w-full overflow-hidden">
-            {/* Video Background Desktop */}
-            <video
-                autoPlay
-                loop
-                muted
-                playsInline
-                className="hidden md:block absolute inset-0 w-full h-full object-cover z-0 scale-105"
-            >
-                <source src="https://pptmoljiblztxdfwjbsr.supabase.co/storage/v1/object/public/background/background.mp4" type="video/mp4" />
-            </video>
-
-            {/* Video Background Mobile */}
-            <video
-                autoPlay
-                loop
-                muted
-                playsInline
-                className="block md:hidden absolute inset-0 w-full h-full object-cover z-0 scale-105"
-            >
-                <source src="https://pptmoljiblztxdfwjbsr.supabase.co/storage/v1/object/public/background/background_phone.mp4" type="video/mp4" />
-            </video>
+            {/* Video Background — carga solo el video del dispositivo actual */}
+            <VideoBackground />
 
             {/* Audio Background */}
             <AudioBackground />
