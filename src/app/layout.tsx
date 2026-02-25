@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     siteName: "Bira Party",
     images: [
       {
-        url: '/logo.svg',
+        url: '/favicon.ico',
         width: 1200,
         height: 630,
         alt: 'Bira Party',
@@ -47,11 +47,11 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: "Bira Party - El Evento del Año",
     description: "Valida tu código de invitación y accede a Bira Party. Tu experiencia comienza aquí.",
-    images: ['/logo.svg'],
+    images: ['/favicon.ico'],
   },
   icons: {
-    icon: '/loguito_3.ico',
-    apple: '/logo.svg',
+    icon: '/favicon.ico',
+    apple: '/favicon.ico',
   },
   robots: {
     index: true,
