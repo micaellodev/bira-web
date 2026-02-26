@@ -118,11 +118,18 @@ export default function DashboardPage() {
                                     Validados
                                 </button>
                                 <button
+                                    onClick={() => router.push('/sys-panel/dashboard/reservas')}
+                                    className="px-3 py-1.5 text-sm bg-fuchsia-500/20 hover:bg-fuchsia-500/30 text-fuchsia-400 rounded-lg transition-colors font-semibold"
+                                >
+                                    🎟 Reservas
+                                </button>
+                                <button
                                     onClick={handleLogout}
                                     className="px-3 py-1.5 text-sm bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-lg transition-colors"
                                 >
                                     Salir
                                 </button>
+
                             </div>
 
                             {/* Mobile Navigation */}
@@ -131,9 +138,11 @@ export default function DashboardPage() {
                                     { label: 'Promotores', href: '/sys-panel/dashboard/promotores' },
                                     { label: 'Canjeados', href: '/sys-panel/dashboard/canjeados' },
                                     { label: 'Validados', href: '/sys-panel/dashboard/validados' },
+                                    { label: '🎟 Reservas', href: '/sys-panel/dashboard/reservas' },
                                     { label: 'Salir', onClick: handleLogout, variant: 'danger' },
                                 ]}
                             />
+
                         </div>
                     </div>
                 </header>
@@ -179,12 +188,19 @@ export default function DashboardPage() {
                                 Asignar Códigos
                             </button>
                             <button
+                                onClick={() => router.push('/sys-panel/dashboard/reservas')}
+                                className="px-6 py-4 bg-fuchsia-500/20 hover:bg-fuchsia-500/30 border border-fuchsia-500/30 text-fuchsia-400 rounded-lg transition-all duration-300 font-semibold text-sm sm:text-base"
+                            >
+                                🎟 Ver Reservas
+                            </button>
+                            <button
                                 onClick={loadData}
                                 className="px-6 py-4 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-purple-400 rounded-lg transition-all duration-300 font-semibold text-sm sm:text-base"
                             >
                                 🔄 Actualizar Datos
                             </button>
                         </div>
+
                     </div>
                 </main>
             </div>

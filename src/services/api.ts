@@ -1,4 +1,4 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 //
 
@@ -14,7 +14,7 @@ export interface ValidarCodigoResponse {
 }
 
 export async function validarCodigo(codigo: string): Promise<ValidarCodigoResponse> {
-  const res = await fetch(`${API_URL}/codigos/validar`, {
+  const res = await fetch(`${NEXT_PUBLIC_API_URL}/codigos/validar`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ codigo }),
@@ -38,7 +38,7 @@ export interface CanjearCodigoPayload {
 export async function canjearCodigo(
   data: CanjearCodigoPayload
 ): Promise<{ qrData: string }> {
-  const res = await fetch(`${API_URL}/codigos/canjear`, {
+  const res = await fetch(`${NEXT_PUBLIC_API_URL}/codigos/canjear`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
@@ -54,7 +54,7 @@ export async function canjearCodigo(
 
 // Wallet API functions
 export async function addToGoogleWallet(invitadoId: number): Promise<{ url: string }> {
-  const res = await fetch(`${API_URL}/wallet/google/${invitadoId}`, {
+  const res = await fetch(`${NEXT_PUBLIC_API_URL}/wallet/google/${invitadoId}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
   });
@@ -68,7 +68,7 @@ export async function addToGoogleWallet(invitadoId: number): Promise<{ url: stri
 }
 
 export async function addToAppleWallet(invitadoId: number): Promise<Blob> {
-  const res = await fetch(`${API_URL}/wallet/apple/${invitadoId}`, {
+  const res = await fetch(`${NEXT_PUBLIC_API_URL}/wallet/apple/${invitadoId}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
   });
@@ -101,7 +101,7 @@ export interface InvitadoResponse {
 }
 
 export async function getInvitadoByUuid(uuid: string): Promise<InvitadoResponse> {
-  const res = await fetch(`${API_URL}/invitados/uuid/${uuid}`, {
+  const res = await fetch(`${NEXT_PUBLIC_API_URL}/invitados/uuid/${uuid}`, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
   });

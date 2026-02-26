@@ -26,7 +26,7 @@ try {
 const config = {
     host: envVars.SMTP_HOST || process.env.SMTP_HOST,
     port: Number(envVars.SMTP_PORT || process.env.SMTP_PORT),
-    user: envVars.SMTP_NOREPLY_USER || process.env.SMTP_NOREPLY_USER,
+    user: envVars.SMTP_NOTIFICATION_USER || process.env.SMTP_NOTIFICATION_USER,
     pass: envVars.SMTP_NOREPLY_PASS || process.env.SMTP_NOREPLY_PASS,
 };
 

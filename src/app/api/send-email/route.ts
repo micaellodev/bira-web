@@ -25,7 +25,7 @@ export async function POST(req: Request) {
       host: process.env.SMTP_HOST,
       port: Number(process.env.SMTP_PORT),
       auth: {
-        user: process.env.SMTP_NOREPLY_USER,
+        user: process.env.SMTP_NOTIFICATION_USER,
         pass: process.env.SMTP_NOREPLY_PASS,
       },
       secure: false, // Use false for port 587
@@ -36,14 +36,14 @@ export async function POST(req: Request) {
     const textContent = generateEmailText(names, qrLink, promoterName);
 
     const mailOptions = {
-      from: `"Bira Party" <${process.env.SMTP_NOREPLY_USER}>`,
+      from: `"Bira Party" <${process.env.SMTP_NOTIFICATION_USER}>`,
       to: email,
       subject: `🎫 Tu Entrada - Bira Party`,
       text: textContent,
       html: htmlContent,
       headers: {
         'X-Entity-Ref-ID': `BIRA-${Date.now()}`,
-        'List-Unsubscribe': `<mailto:${process.env.SMTP_NOREPLY_USER}?subject=unsubscribe>`
+        'List-Unsubscribe': `<mailto:${process.env.SMTP_NOTIFICATION_USER}?subject=unsubscribe>`
       },
     };
 

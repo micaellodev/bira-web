@@ -28,7 +28,7 @@ const host = envVars.SMTP_HOST || process.env.SMTP_HOST;
 const port = Number(envVars.SMTP_PORT || process.env.SMTP_PORT);
 
 // Set 1: NOREPLY
-const noreplyUser = envVars.SMTP_NOREPLY_USER || process.env.SMTP_NOREPLY_USER;
+const noreplyUser = envVars.SMTP_NOTIFICATION_USER || process.env.SMTP_NOTIFICATION_USER;
 const noreplyPass = envVars.SMTP_NOREPLY_PASS || process.env.SMTP_NOREPLY_PASS;
 
 // Set 2: NOTIFICATION (for Welcome Promotor)
@@ -81,7 +81,7 @@ async function verifyCredentials(label: string, user?: string, pass?: string) {
 }
 
 async function runTests() {
-    await verifyCredentials("SMTP_NOREPLY_USER", noreplyUser, noreplyPass);
+    await verifyCredentials("SMTP_NOTIFICATION_USER", noreplyUser, noreplyPass);
     await verifyCredentials("SMTP_NOTIFICATION_USER", notificationUser, notificationPass);
 }
 

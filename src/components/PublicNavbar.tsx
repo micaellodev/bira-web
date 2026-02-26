@@ -6,7 +6,7 @@ export function PublicNavbar() {
         <nav className="absolute top-0 w-full z-50 flex items-center justify-between px-4 sm:px-8 py-4 sm:py-6 bg-transparent pointer-events-none">
             {/* Logo */}
             <Link href="/" className="pointer-events-auto flex items-center gap-2 hover:opacity-80 hover:scale-105 transition-all duration-500">
-                <BiraLogo className="w-32 sm:w-48 drop-shadow-2xl translate-y-1 sm:translate-y-2" />
+                <BiraLogo className="w-32 sm:w-48 drop-shadow-2xl translate-y-6 sm:translate-y-8" />
             </Link>
 
             {/* Actions */}

@@ -93,7 +93,7 @@ export function CodigoForm() {
             {/* Helper text */}
             <Link
                 href="/contacto-promotor"
-                className="text-blue-300 hover:text-blue-200 text-sm sm:text-base font-medium mt-4 animate-in fade-in transition-colors duration-300 cursor-pointer hover:underline"
+                className="text-cyan-400 hover:text-cyan-300 text-sm sm:text-base font-extrabold mt-2 [text-shadow:0_2px_4px_rgb(0_0_0/0.8)] animate-in fade-in transition-colors duration-300 cursor-pointer hover:underline"
             >
                 ¿No tienes un código? Contacta con tu promotor
             </Link>

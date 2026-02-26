@@ -1,5 +1,5 @@
 // src/api/codigos.ts
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export interface Promotor {
   id: number;
@@ -13,7 +13,7 @@ export interface ValidarCodigoResponse {
 }
 
 export async function validarCodigo(codigo: string): Promise<ValidarCodigoResponse> {
-  const res = await fetch(`${API_URL}/codigos/validar`, {
+  const res = await fetch(`${NEXT_PUBLIC_API_URL}/codigos/validar`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ codigo }),
@@ -61,7 +61,7 @@ export interface CanjearCodigoResponse {
 export async function canjearCodigo(
   data: CanjearCodigoPayload
 ): Promise<CanjearCodigoResponse> {
-  const res = await fetch(`${API_URL}/codigos/canjear`, {
+  const res = await fetch(`${NEXT_PUBLIC_API_URL}/codigos/canjear`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),

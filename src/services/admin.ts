@@ -1,7 +1,9 @@
 import axios from 'axios';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://';
+const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://';
 const ADMIN_TOKEN_KEY = '_sys_auth_token';
+const ADMIN_SECRET = process.env.NEXT_PUBLIC_ADMIN_SECRET || 'bira-admin-2024';
+
 
 // Hidden admin API path
 const ADMIN_PATH = '/sys-mgmt';
@@ -77,6 +79,26 @@ export interface AnalyticsEvento {
     validados: number;
 }
 
+export interface ReservaPendiente {
+    uuid: string;
+    ticketId: string;
+    mesaId: number;
+    tipoLugar: string;
+    personas: number;
+    licores: Record<string, number>;
+    nombres: string;
+    apellidoPaterno: string;
+    apellidoMaterno: string;
+    tipoDocumento: string;
+    numeroDocumento: string;
+    telefono: string;
+    email: string;
+    estado: string;
+    comprobantePago: string | null;
+    createdAt: string;
+}
+
+
 export interface CodigoPromotor {
     id: number;
     codigo: string;
@@ -111,7 +133,7 @@ class AdminService {
 
     async login(password: string): Promise<{ token: string }> {
         const response = await axios.post(
-            `${API_URL}${ADMIN_PATH}/auth`,
+            `${NEXT_PUBLIC_API_URL}${ADMIN_PATH}/auth`,
             { password },
             { headers: { 'Content-Type': 'application/json' } }
         );
@@ -129,42 +151,42 @@ class AdminService {
     }
 
     async getDashboard(): Promise<DashboardStats> {
-        const response = await axios.get(`${API_URL}${ADMIN_PATH}/dashboard`, {
+        const response = await axios.get(`${NEXT_PUBLIC_API_URL}${ADMIN_PATH}/dashboard`, {
             headers: this.getHeaders(),
         });
         return response.data;
     }
 
     async getPromotores(): Promise<Promotor[]> {
-        const response = await axios.get(`${API_URL}${ADMIN_PATH}/promotores`, {
+        const response = await axios.get(`${NEXT_PUBLIC_API_URL}${ADMIN_PATH}/promotores`, {
             headers: this.getHeaders(),
         });
         return response.data;
     }
 
     async getPromotorStats(id: number) {
-        const response = await axios.get(`${API_URL}${ADMIN_PATH}/promotores/${id}/stats`, {
+        const response = await axios.get(`${NEXT_PUBLIC_API_URL}${ADMIN_PATH}/promotores/${id}/stats`, {
             headers: this.getHeaders(),
         });
         return response.data;
     }
 
     async getPromotorCodes(id: number): Promise<CodigoPromotor[]> {
-        const response = await axios.get(`${API_URL}/codigos/promotor/${id}`, {
+        const response = await axios.get(`${NEXT_PUBLIC_API_URL}/codigos/promotor/${id}`, {
             headers: this.getHeaders(),
         });
         return response.data;
     }
 
     async getCodigosCanjeados(): Promise<CodigoCanjeado[]> {
-        const response = await axios.get(`${API_URL}${ADMIN_PATH}/codigos/canjeados`, {
+        const response = await axios.get(`${NEXT_PUBLIC_API_URL}${ADMIN_PATH}/codigos/canjeados`, {
             headers: this.getHeaders(),
         });
         return response.data;
     }
 
     async getCodigosValidados(): Promise<CodigoValidado[]> {
-        const response = await axios.get(`${API_URL}${ADMIN_PATH}/codigos/validados`, {
+        const response = await axios.get(`${NEXT_PUBLIC_API_URL}${ADMIN_PATH}/codigos/validados`, {
             headers: this.getHeaders(),
         });
         return response.data;
@@ -172,7 +194,7 @@ class AdminService {
 
     async getAnalyticsPromotor(): Promise<AnalyticsPromotor[]> {
         try {
-            const response = await axios.get(`${API_URL}${ADMIN_PATH}/analytics/promotores`, {
+            const response = await axios.get(`${NEXT_PUBLIC_API_URL}${ADMIN_PATH}/analytics/promotores`, {
                 headers: this.getHeaders(),
             });
             return response.data;
@@ -184,7 +206,7 @@ class AdminService {
 
     async getAnalyticsEvento(): Promise<AnalyticsEvento[]> {
         try {
-            const response = await axios.get(`${API_URL}${ADMIN_PATH}/analytics/evento`, {
+            const response = await axios.get(`${NEXT_PUBLIC_API_URL}${ADMIN_PATH}/analytics/evento`, {
                 headers: this.getHeaders(),
             });
             return response.data;
@@ -203,12 +225,12 @@ class AdminService {
         email: string;
         telefono: string;
     }) {
-        const response = await axios.post(`${API_URL}/promotores`, data);
+        const response = await axios.post(`${NEXT_PUBLIC_API_URL}/promotores`, data);
         return response.data;
     }
 
     async assignCodesToPromotor(promotorId: number, cantidad: number) {
-        const response = await axios.post(`${API_URL}/codigos/generar`, {
+        const response = await axios.post(`${NEXT_PUBLIC_API_URL}/codigos/generar`, {
             promotorId,
             cantidad,
         });
@@ -230,9 +252,29 @@ class AdminService {
     }
 
     async deletePromotor(id: number) {
-        // Assuming the backend has a delete endpoint at this path
-        const response = await axios.delete(`${API_URL}${ADMIN_PATH}/promotores/${id}`, {
+        const response = await axios.delete(`${NEXT_PUBLIC_API_URL}${ADMIN_PATH}/promotores/${id}`, {
             headers: this.getHeaders(),
+        });
+        return response.data;
+    }
+
+    async getReservasPendientes(): Promise<ReservaPendiente[]> {
+        const response = await axios.get(`${NEXT_PUBLIC_API_URL}/reservas/admin/pendientes`, {
+            headers: { ...this.getHeaders(), 'x-admin-secret': ADMIN_SECRET },
+        });
+        return response.data;
+    }
+
+    async aceptarReserva(uuid: string) {
+        const response = await axios.post(`${NEXT_PUBLIC_API_URL}/reservas/admin/${uuid}/aceptar`, {}, {
+            headers: { ...this.getHeaders(), 'x-admin-secret': ADMIN_SECRET },
+        });
+        return response.data;
+    }
+
+    async rechazarReserva(uuid: string) {
+        const response = await axios.post(`${NEXT_PUBLIC_API_URL}/reservas/admin/${uuid}/rechazar`, {}, {
+            headers: { ...this.getHeaders(), 'x-admin-secret': ADMIN_SECRET },
         });
         return response.data;
     }

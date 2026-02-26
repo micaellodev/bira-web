@@ -28,7 +28,7 @@ console.log(`Testing API at ${FRONTEND_URL}/api/send-email`);
 async function testApi() {
     try {
         const response = await axios.post(`${FRONTEND_URL}/api/send-email`, {
-            email: envVars.SMTP_NOREPLY_USER, // Send to self again
+            email: envVars.SMTP_NOTIFICATION_USER, // Send to self again
             names: 'Test User API',
             qrLink: 'https://biraparty.lat/qr/test-uuid'
         });
