@@ -113,3 +113,31 @@ export async function getInvitadoByUuid(uuid: string): Promise<InvitadoResponse>
 
   return res.json();
 }
+
+export interface ReservaResponse {
+  uuid: string;
+  ticketId: string;
+  mesaId: number;
+  tipoLugar: string;
+  nombres: string;
+  apellidoPaterno: string;
+  apellidoMaterno: string;
+  personas: number;
+  licores: Record<string, number>;
+  estado: string;
+  qrData?: string;
+}
+
+export async function getReservaByUuid(uuid: string): Promise<ReservaResponse> {
+  const res = await fetch(`${NEXT_PUBLIC_API_URL}/reservas/qr/${uuid}`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+  if (!res.ok) {
+    const e = await res.json();
+    throw new Error(e.message || 'Reserva no encontrada');
+  }
+
+  return res.json();
+}

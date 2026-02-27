@@ -26,9 +26,14 @@ interface Invitado {
 interface QrCardProps {
     invitado: Invitado;
     qrData: string;
+    reservaInfo?: {
+        tipoLugar: string;
+        mesaId: number;
+        personas: number;
+    };
 }
 
-export const QrCard = ({ invitado, qrData }: QrCardProps) => {
+export const QrCard = ({ invitado, qrData, reservaInfo }: QrCardProps) => {
     const qrRef = useRef<HTMLDivElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
 
@@ -204,14 +209,21 @@ export const QrCard = ({ invitado, qrData }: QrCardProps) => {
 
                             {/* Footer Info */}
                             <div className="w-full text-center space-y-3">
-                                {invitado.promotor && (
+                                {reservaInfo ? (
+                                    <div className="space-y-1">
+                                        <p className="text-zinc-400 text-xs uppercase tracking-wider">Reserva:</p>
+                                        <p className="text-emerald-400 text-sm font-medium">
+                                            {reservaInfo.tipoLugar === 'box' ? 'Box VIP' : 'Mesa'} #{reservaInfo.mesaId} - {reservaInfo.personas} per.
+                                        </p>
+                                    </div>
+                                ) : invitado.promotor ? (
                                     <div className="space-y-1">
                                         <p className="text-zinc-400 text-xs uppercase tracking-wider">Promotor:</p>
                                         <p className="text-[#f472b6] text-sm font-medium">
                                             {invitado.promotor.nombres} {invitado.promotor.apellidos}
                                         </p>
                                     </div>
-                                )}
+                                ) : null}
                                 <div className="space-y-1">
                                     <p className="text-zinc-400 text-xs uppercase tracking-wider">Opens in:</p>
                                     <p className="text-[#f472b6] text-sm font-mono">

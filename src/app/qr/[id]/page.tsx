@@ -9,7 +9,7 @@ const QrCard = dynamic(() => import("@/components/QrCard").then(mod => mod.QrCar
 import { AuroraBackground } from "@/components/aurora-background";
 import { Footer } from "@/components/Footer";
 import React, { useEffect, useState } from "react";
-import { getInvitadoByUuid } from "@/services/api";
+import { getInvitadoByUuid, getReservaByUuid } from "@/services/api";
 import { useParams, useRouter } from "next/navigation";
 
 interface Invitado {
@@ -38,6 +38,7 @@ export default function QRPage() {
     const identifier = params.id as string;
 
     const [invitado, setInvitado] = useState<Invitado | null>(null);
+    const [reservaInfo, setReservaInfo] = useState<{ tipoLugar: string; mesaId: number; personas: number } | undefined>();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string>("");
 
@@ -61,29 +62,57 @@ export default function QRPage() {
                 }
                 return;
             } catch (err: any) {
-                console.error("Error fetching from API:", err);
+                console.error("Error fetching invitado, trying reserva:", err);
 
-                // Si falla la API, intentar localStorage como fallback
-                if (typeof window !== 'undefined') {
-                    const storedInvitado = localStorage.getItem('invitado');
-                    if (storedInvitado) {
-                        try {
-                            const parsed = JSON.parse(storedInvitado);
-                            // Verificar si el UUID o TicketID coincide
-                            if (parsed.uuid === identifier || parsed.ticketId === identifier) {
-                                console.log("Using data from localStorage");
-                                setInvitado(parsed);
-                                setLoading(false);
-                                return;
+                try {
+                    const reservaData = await getReservaByUuid(identifier);
+                    // Map reserva to Invitado format for QrCard
+                    const mappedReserv: Invitado = {
+                        id: 0,
+                        nombres: reservaData.nombres,
+                        apellidoPaterno: reservaData.apellidoPaterno,
+                        apellidoMaterno: reservaData.apellidoMaterno,
+                        tipoDocumento: '',
+                        numeroDocumento: '',
+                        telefono: '',
+                        email: '',
+                        uuid: reservaData.uuid,
+                        ticketId: reservaData.ticketId,
+                        qrData: reservaData.qrData || '',
+                    };
+                    setInvitado(mappedReserv);
+                    setReservaInfo({
+                        tipoLugar: reservaData.tipoLugar,
+                        mesaId: reservaData.mesaId,
+                        personas: reservaData.personas
+                    });
+                    setLoading(false);
+                    return;
+                } catch (reservaErr: any) {
+                    console.error("Error fetching reserva from API:", reservaErr);
+
+                    // Si falla la API, intentar localStorage como fallback
+                    if (typeof window !== 'undefined') {
+                        const storedInvitado = localStorage.getItem('invitado');
+                        if (storedInvitado) {
+                            try {
+                                const parsed = JSON.parse(storedInvitado);
+                                // Verificar si el UUID o TicketID coincide
+                                if (parsed.uuid === identifier || parsed.ticketId === identifier) {
+                                    console.log("Using data from localStorage");
+                                    setInvitado(parsed);
+                                    setLoading(false);
+                                    return;
+                                }
+                            } catch (e) {
+                                console.error("Error parsing local storage", e);
                             }
-                        } catch (e) {
-                            console.error("Error parsing local storage", e);
                         }
                     }
-                }
 
-                // Si todo falla, mostrar error
-                setError("No se pudo cargar la información. Intenta recargar la página.");
+                    // Si todo falla, mostrar error
+                    setError("No se pudo cargar la información. Intenta recargar la página.");
+                }
             } finally {
                 setLoading(false);
             }
@@ -122,7 +151,7 @@ export default function QRPage() {
 
                 {/* Card Container */}
                 <div className="w-full max-w-[450px] sm:max-w-[500px] relative z-20">
-                    <QrCard invitado={invitado} qrData={invitado.qrData} />
+                    <QrCard invitado={invitado} qrData={invitado.qrData} reservaInfo={reservaInfo} />
                 </div>
             </div>
 
