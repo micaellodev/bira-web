@@ -7,7 +7,7 @@ import QRCodeStyling from 'qr-code-styling';
 const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://bira-backend-production.up.railway.app';
 
 // ─── Payment details ─────────────────────────────────────────────────────────
-const PAYMENT_YAPE_NUMBER = '943 955 955'; // Replace with actual Yape number
+const PAYMENT_YAPE_NUMBER = '943 955 095'; // Replace with actual Yape number
 const PAYMENT_WHATSAPP_NUMBER = '51943955095'; // International format for wa.me
 const PAYMENT_NAME = 'DONATTO MICAELLO ZOPPI BALCAZAR';
 
