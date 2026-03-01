@@ -63,7 +63,7 @@ export const QrCard = ({ invitado, qrData, reservaInfo }: QrCardProps) => {
     );
 
     const calculateTimeLeft = () => {
-        const difference = +new Date("2026-02-28T21:00:00") - +new Date();
+        const difference = +new Date("2026-02-28T22:00:00") - +new Date();
         let timeLeft = {
             days: 0,
             hours: 0,
