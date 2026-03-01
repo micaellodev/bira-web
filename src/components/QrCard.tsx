@@ -195,38 +195,38 @@ export const QrCard = ({ invitado, qrData, reservaInfo }: QrCardProps) => {
                         <TicketBackground />
 
                         {/* Content */}
-                        <div className="relative z-10 flex h-full w-full flex-col items-center justify-between p-8 pt-20 pb-10">
+                        <div className="relative z-10 flex h-full w-full flex-col items-center justify-between px-6 pt-14 pb-6">
                             <div className="flex flex-col items-center">
-                                <BiraLogo className="h-12 w-auto mb-4" />
-                                <h2 className="text-3xl font-bold text-[#f472b6] tracking-tight text-center">{invitado.nombres}</h2>
-                                <h2 className="text-3xl font-bold text-[#f472b6] tracking-tight text-center">{invitado.apellidoPaterno} {invitado.apellidoMaterno}</h2>
+                                <BiraLogo className="h-10 w-auto mb-2" />
+                                <h2 className="text-2xl font-bold text-[#f472b6] tracking-tight text-center uppercase">{invitado.nombres}</h2>
+                                <h2 className="text-2xl font-bold text-[#f472b6] tracking-tight text-center uppercase">{invitado.apellidoPaterno} {invitado.apellidoMaterno}</h2>
                             </div>
 
-                            <div className="relative group p-4">
+                            <div className="relative group p-2">
                                 {/* QR Container */}
                                 <div ref={qrRef} className="[&>canvas]:w-full [&>canvas]:h-auto" />
                             </div>
 
                             {/* Footer Info */}
-                            <div className="w-full text-center space-y-3">
+                            <div className="w-full text-center space-y-2">
                                 {reservaInfo ? (
-                                    <div className="space-y-1">
-                                        <p className="text-zinc-400 text-xs uppercase tracking-wider">Reserva:</p>
-                                        <p className="text-emerald-400 text-sm font-medium">
+                                    <div className="space-y-0.5">
+                                        <p className="text-zinc-400 text-[10px] uppercase tracking-wider">Reserva:</p>
+                                        <p className="text-emerald-400 text-xs font-medium">
                                             {reservaInfo.tipoLugar === 'box' ? 'Box VIP' : 'Mesa'} #{reservaInfo.mesaId} - {reservaInfo.personas} per.
                                         </p>
                                     </div>
                                 ) : invitado.promotor ? (
-                                    <div className="space-y-1">
-                                        <p className="text-zinc-400 text-xs uppercase tracking-wider">Promotor:</p>
-                                        <p className="text-[#f472b6] text-sm font-medium">
+                                    <div className="space-y-0.5">
+                                        <p className="text-zinc-400 text-[10px] uppercase tracking-wider">Promotor:</p>
+                                        <p className="text-[#f472b6] text-xs font-medium">
                                             {invitado.promotor.nombres} {invitado.promotor.apellidos}
                                         </p>
                                     </div>
                                 ) : null}
-                                <div className="space-y-1">
-                                    <p className="text-zinc-400 text-xs uppercase tracking-wider">Opens in:</p>
-                                    <p className="text-[#f472b6] text-sm font-mono">
+                                <div className="space-y-0.5">
+                                    <p className="text-zinc-400 text-[10px] uppercase tracking-wider">Opens in:</p>
+                                    <p className="text-[#f472b6] text-xs font-mono">
                                         {timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s
                                     </p>
                                 </div>

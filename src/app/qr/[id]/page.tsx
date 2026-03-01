@@ -9,7 +9,7 @@ const QrCard = dynamic(() => import("@/components/QrCard").then(mod => mod.QrCar
 import { AuroraBackground } from "@/components/aurora-background";
 import { Footer } from "@/components/Footer";
 import React, { useEffect, useState } from "react";
-import { getInvitadoByUuid, getReservaByUuid } from "@/services/api";
+import { getInvitadoByUuid, getReservaByTicketId } from "@/services/api";
 import { useParams, useRouter } from "next/navigation";
 
 interface Invitado {
@@ -65,7 +65,7 @@ export default function QRPage() {
                 console.error("Error fetching invitado, trying reserva:", err);
 
                 try {
-                    const reservaData = await getReservaByUuid(identifier);
+                    const reservaData = await getReservaByTicketId(identifier);
                     // Map reserva to Invitado format for QrCard
                     const mappedReserv: Invitado = {
                         id: 0,
@@ -76,7 +76,8 @@ export default function QRPage() {
                         numeroDocumento: '',
                         telefono: '',
                         email: '',
-                        uuid: reservaData.uuid,
+                        uuid: reservaData.uuid || identifier,
+                        ticketId: reservaData.ticketId,
                         ticketId: reservaData.ticketId,
                         qrData: reservaData.qrData || '',
                     };

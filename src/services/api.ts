@@ -128,8 +128,8 @@ export interface ReservaResponse {
   qrData?: string;
 }
 
-export async function getReservaByUuid(uuid: string): Promise<ReservaResponse> {
-  const res = await fetch(`${NEXT_PUBLIC_API_URL}/reservas/qr/${uuid}`, {
+export async function getReservaByTicketId(ticketId: string): Promise<ReservaResponse> {
+  const res = await fetch(`${NEXT_PUBLIC_API_URL}/reservas/qr/${ticketId}`, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
   });
