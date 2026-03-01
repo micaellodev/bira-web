@@ -78,7 +78,6 @@ export default function QRPage() {
                         email: '',
                         uuid: reservaData.uuid || identifier,
                         ticketId: reservaData.ticketId,
-                        ticketId: reservaData.ticketId,
                         qrData: reservaData.qrData || '',
                     };
                     setInvitado(mappedReserv);

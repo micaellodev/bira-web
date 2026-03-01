@@ -67,6 +67,7 @@ const BOX_PACKAGES = [
 ];
 
 const MESA_BOTTLES = [
+    { id: 'pilsen_caja', name: 'Pilsen Caja', price: 150 },
     { id: 'flor_cana_12', name: 'Flor de Caña 4 Años', price: 150 },
     { id: 'jose_cuervo', name: 'José Cuervo Especial', price: 150 },
     { id: 'red_label', name: 'JW Red Label', price: 150 },
