@@ -1,58 +1,38 @@
-import Link from 'next/link';
-import { Suspense } from 'react';
 import BiraLogo from "@/components/icons/Biralogo";
-import { CodigoForm } from "@/components/home/CodigoForm"; import { FloatingPromo } from "@/components/home/FloatingPromo";
 
 export default function HomePage() {
   return (
-    <main className="relative flex flex-col items-center gap-6 text-center w-full justify-center px-4 py-8">
-      {/* Reservas button — fixed top-right */}
-      <div className="fixed top-0 right-0 z-50 p-4 sm:p-6">
-        <Link
-          href="/reservas"
-          className="backdrop-blur-md bg-white/10 border border-white/20 hover:bg-white/20 text-white px-5 py-2 rounded-full font-semibold transition-all duration-300 [text-shadow:0_1px_2px_rgb(0_0_0/0.5)] shadow-xl hover:scale-105 active:scale-95"
-        >
-          Reservas
-        </Link>
-      </div>
+    <main className="relative flex flex-col items-center gap-8 text-center w-full justify-center px-4 min-h-[85vh]">
+      {/* Content wrapper with floating effect */}
+      <div className="relative z-10 flex flex-col items-center gap-8 w-full max-w-lg p-10 rounded-3xl backdrop-blur-xl bg-black/40 border border-white/10 shadow-[0_0_50px_rgba(0,255,255,0.05)] animate-in fade-in slide-in-from-bottom-8 duration-1000">
+        
+        {/* Glow effect behind the card */}
+        <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-purple-500/10 rounded-3xl blur-2xl -z-10" />
 
-      {/* Content */}
-      <div className="relative z-10 flex flex-col items-center gap-6 w-full max-w-md">
-
-        {/* Logo with animation */}
-        <div className="transform transition-all duration-500 hover:scale-105 relative w-full h-auto flex justify-center">
-          <BiraLogo className="w-full max-w-sm sm:max-w-md mb-2 drop-shadow-2xl" />
+        {/* Logo */}
+        <div className="transform transition-all duration-[3000ms] ease-in-out hover:scale-105 relative w-full flex justify-center drop-shadow-[0_0_15px_rgba(255,255,255,0.1)] hover:drop-shadow-[0_0_25px_rgba(255,255,255,0.2)]">
+          <BiraLogo className="w-full max-w-[250px] sm:max-w-xs drop-shadow-2xl" />
         </div>
 
-        {/* Title */}
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-white [text-shadow:0_2px_4px_rgb(0_0_0/0.8)]">
-          Valida tu Código de Invitación
-        </h1>
+        {/* Maintenance Message */}
+        <div className="space-y-6 w-full flex flex-col items-center">
+          <h1 className="text-4xl sm:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-purple-400 [text-shadow:0_2px_10px_rgb(0_0_0/0.8)] tracking-tight">
+            Volveremos Pronto
+          </h1>
+          
+          <div className="h-[2px] w-16 bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
 
-        {/* Subtitle */}
-        <p className="text-gray-100 font-semibold text-sm sm:text-base max-w-sm [text-shadow:0_2px_4px_rgb(0_0_0/0.8)] animate-in fade-in slide-in-from-bottom-2 duration-700 delay-200">
-          Valida tu código de invitación para continuar
-        </p>
+          <p className="text-gray-200 font-semibold text-xl sm:text-2xl pt-2 [text-shadow:0_2px_4px_rgb(0_0_0/0.8)]">
+            Sobrino, nos estaremos viendo pronto.
+          </p>
 
-        <Suspense fallback={<div className="w-full h-20 animate-pulse bg-white/5 rounded-lg" />}>
-          <CodigoForm />
-        </Suspense>
-
-        {/* Internal Navigation Footer */}
-        <nav className="mt-2 pt-4 border-t border-white/10 w-full animate-in fade-in duration-700 delay-600">
-          <div className="flex flex-wrap justify-center gap-4 text-xs sm:text-sm">
-            <Link
-              href="/contacto-promotor"
-              className="text-cyan-400 hover:text-cyan-300 font-extrabold [text-shadow:0_2px_4px_rgb(0_0_0/0.8)] transition-colors duration-300"
-            >
-              Contactar Promotor
-            </Link>
+          <div className="mt-8 px-6 py-2 rounded-full border border-white/10 bg-white/5 animate-pulse">
+            <span className="text-cyan-300/90 text-sm font-medium tracking-wider uppercase">
+              Estamos en mantenimiento
+            </span>
           </div>
-        </nav>
+        </div>
       </div>
-
-      {/* Floating Promo Announcement */}
-      <FloatingPromo />
     </main>
   );
-}
+}
